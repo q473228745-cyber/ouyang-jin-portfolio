@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>欧阳槿 — 交互 / 数字体验设计师</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #0A0A0A; --off-black: #1A1A1A; --dark-gray: #2A2A2A;
+      --mid-gray: #6B6B6B; --light-gray: #9A9A9A; --border: #E5E5E5;
+      --off-white: #F5F5F3; --white: #FFFFFF;
+      --warm: #C8B89A; --warm-dark: #8B6F4E;
+      --blue-deep: #1A3A5C; --blue-teal: #2E8B8B;
+      --green: #7BA32C; --green-light: #F2E8C4;
+      --brown: #A67C52; --brown-light: #F0E6D3;
+      --space-xs: 4px; --space-sm: 8px; --space-md: 16px; --space-lg: 24px;
+      --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px; --space-4xl: 96px;
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif; background: var(--off-white); color: var(--black); line-height: 1.6; overflow-x: hidden; }
+
+    .header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: var(--space-md) var(--space-lg); height: 56px; background: var(--off-white); border-bottom: 1px solid transparent; transition: background 0.3s, border-color 0.3s; }
+    .header.scrolled { background: var(--off-white); border-bottom: 1px solid var(--border); }
+    .logo { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 700; letter-spacing: -0.02em; color: var(--black); text-decoration: none; }
+    .menu-btn { width: 44px; height: 44px; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+    .menu-btn span { display: block; width: 20px; height: 1px; background: var(--black); transition: transform 0.3s var(--easing), opacity 0.2s; }
+    .menu-btn span:last-child { width: 14px; }
+    .menu-btn.active span:first-child { transform: rotate(45deg) translate(3px, -3px); }
+    .menu-btn.active span:last-child { transform: rotate(-45deg) translate(3px, 3px); width: 20px; }
+
+    .menu-overlay { position: fixed; inset: 0; z-index: 90; background: var(--off-white); display: flex; flex-direction: column; justify-content: center; padding: var(--space-2xl) var(--space-lg); opacity: 0; pointer-events: none; transition: opacity 0.4s var(--easing); }
+    .menu-overlay.open { opacity: 1; pointer-events: all; }
+    .menu-overlay nav { display: flex; flex-direction: column; gap: var(--space-xl); }
+    .menu-overlay nav a { font-family: 'Playfair Display', Georgia, serif; font-size: 42px; font-weight: 700; color: var(--black); text-decoration: none; letter-spacing: -0.02em; line-height: 1.1; display: block; padding: var(--space-sm) 0; border-bottom: 1px solid var(--border); transition: opacity 0.2s; }
+    .menu-overlay nav a:hover { opacity: 0.5; }
+    .menu-footer { margin-top: auto; padding-top: var(--space-2xl); border-top: 1px solid var(--border); }
+    .menu-footer p { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mid-gray); line-height: 1.8; }
+
+    .hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--space-lg) var(--space-3xl); position: relative; }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(44px, 14vw, 72px); font-weight: 700; line-height: 0.95; letter-spacing: -0.03em; color: var(--black); margin-bottom: var(--space-xl); }
+    .hero-title span { display: block; }
+    .hero-subtitle { font-size: 15px; font-weight: 400; color: var(--mid-gray); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--space-2xl); font-family: 'JetBrains Mono', monospace; }
+    .hero-scroll { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); display: flex; align-items: center; gap: var(--space-sm); animation: scrollPulse 2s ease-in-out infinite; }
+    .hero-scroll::after { content: ''; width: 24px; height: 1px; background: var(--light-gray); display: block; }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.4; transform: translateY(0); } 50% { opacity: 1; transform: translateY(3px); } }
+
+    section { padding: var(--space-3xl) var(--space-lg); }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: var(--space-md); }
+    .section-label::before { content: ''; width: 24px; height: 1px; background: var(--warm); }
+    .section-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(32px, 10vw, 56px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: var(--space-2xl); }
+
+    /* WORKS */
+    .works { padding-top: 0; }
+    .work-item { margin-bottom: var(--space-4xl); opacity: 0; transform: translateY(40px); transition: opacity 0.7s var(--easing), transform 0.7s var(--easing); }
+    .work-item.visible { opacity: 1; transform: translateY(0); }
+    .work-item + .work-item { padding-top: var(--space-2xl); border-top: 1px solid var(--border); }
+
+    .work-01 .work-image-wrap { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--dark-gray); margin-bottom: var(--space-lg); }
+    .work-01 .work-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(20%); transition: filter 0.5s var(--easing), transform 0.8s var(--easing); }
+    .work-01:hover .work-image-wrap img, .work-01:active .work-image-wrap img { filter: grayscale(0%); transform: scale(1.02); }
+    .work-number { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--warm); letter-spacing: 0.1em; margin-bottom: var(--space-sm); }
+    .work-name { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: var(--space-sm); }
+    .work-tags { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md); }
+    .work-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid-gray); padding: 4px 0; border-bottom: 1px solid var(--border); }
+
+    /* ABOUT */
+    .about { border-top: 1px solid var(--border); }
+    .about-path { display: flex; flex-direction: column; gap: 0; margin-top: var(--space-xl); }
+    .about-path-item { display: grid; grid-template-columns: 80px 1fr; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); align-items: baseline; opacity: 0; transform: translateX(-20px); transition: opacity 0.5s var(--easing), transform 0.5s var(--easing); }
+    .about-path-item.visible { opacity: 1; transform: translateX(0); }
+    .about-path-item:nth-child(1) { transition-delay: 0s; }
+    .about-path-item:nth-child(2) { transition-delay: 0.1s; }
+    .about-path-item:nth-child(3) { transition-delay: 0.2s; }
+    .about-path-item:nth-child(4) { transition-delay: 0.3s; }
+    .about-path-year { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); letter-spacing: 0.05em; }
+    .about-path-title { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
+    .about-path-desc { font-size: 13px; color: var(--mid-gray); line-height: 1.5; margin-top: var(--space-xs); }
+    .about-arrow { display: flex; align-items: center; justify-content: center; padding: var(--space-sm) 0; }
+    .about-arrow svg { width: 16px; height: 16px; stroke: var(--warm); }
+    .about-note { margin-top: var(--space-2xl); font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--mid-gray); line-height: 1.8; padding-left: var(--space-lg); border-left: 2px solid var(--warm); }
+
+    /* LAB */
+    .lab { border-top: 1px solid var(--border); }
+    .lab-list { list-style: none; margin-top: var(--space-xl); }
+    .lab-item { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md) 0; border-bottom: 1px solid var(--border); cursor: pointer; text-decoration: none; color: inherit; transition: padding-left 0.3s var(--easing); }
+    .lab-item:hover { padding-left: var(--space-md); }
+    .lab-item-left { display: flex; align-items: center; gap: var(--space-md); }
+    .lab-item-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--light-gray); letter-spacing: 0.1em; min-width: 28px; }
+    .lab-item-name { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+    .lab-item-arrow { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--light-gray); transition: transform 0.3s var(--easing); }
+    .lab-item:hover .lab-item-arrow { transform: translateX(4px); color: var(--black); }
+    .lab-note { margin-top: var(--space-xl); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); letter-spacing: 0.05em; line-height: 1.8; }
+
+    /* CONTACT */
+    .contact { border-top: 1px solid var(--border); padding-bottom: calc(var(--space-4xl) + 40px); }
+    .contact-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(32px, 11vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.0; margin-bottom: var(--space-3xl); }
+    .contact-title span { display: block; }
+    .contact-links { display: flex; flex-direction: column; gap: var(--space-md); }
+    .contact-link { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md) 0; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--black); transition: opacity 0.2s; }
+    .contact-link:hover { opacity: 0.5; }
+    .contact-link-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 4px; }
+    .contact-link-value { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+    .contact-link-arrow { font-family: 'JetBrains Mono', monospace; font-size: 20px; color: var(--light-gray); transition: transform 0.3s var(--easing); }
+    .contact-link:hover .contact-link-arrow { transform: rotate(-45deg); color: var(--black); }
+
+    .footer { padding: var(--space-lg) var(--space-lg); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer p { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--light-gray); letter-spacing: 0.05em; }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s var(--easing), transform 0.7s var(--easing); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } .reveal { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <a href="#hero" class="logo">欧阳槿</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menuOverlay">
+    <nav>
+      <a href="#works">作品</a>
+      <a href="#about">关于</a>
+      <a href="#lab">实验室</a>
+      <a href="#contact">联系</a>
+    </nav>
+    <div class="menu-footer">
+      <p>ouyangjin.design</p>
+      <p>交互 / 数字体验设计师</p>
+    </div>
+  </div>
+
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span>DESIGN</span>
+        <span>BEYOND</span>
+        <span>THE</span>
+        <span>SCREEN.</span>
+      </h1>
+      <p class="hero-subtitle">欧阳槿<br>交互 / 数字体验设计师</p>
+      <div class="hero-scroll">Scroll</div>
+    </div>
+  </section>
+
+  <section class="works" id="works">
+    <div class="section-label reveal">精选作品</div>
+    <h2 class="section-title reveal">精选作品</h2>
+
+    <a href="pages/case-01.html" class="work-item work-01 reveal" style="text-decoration:none;color:inherit;">
+      <div class="work-image-wrap"><img src="../pdf_pages/page_21.png" alt="淳六味" loading="lazy"></div>
+      <div class="work-number">01</div>
+      <h3 class="work-name">淳六味中药材博物馆</h3>
+      <div class="work-tags"><span class="work-tag">数字展览</span><span class="work-tag">互动</span><span class="work-tag">UX</span><span class="work-tag">界面</span></div>
+    </a>
+
+    <a href="pages/case-02.html" class="work-item work-02 reveal" style="text-decoration:none;color:inherit;">
+      <div class="work-image-wrap" style="position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:#E8E4DD;border:1px solid var(--border);">
+        <img src="../pdf_pages/page_08.png" alt="Smart Slippers" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(10%);">
+        <div style="position:absolute;top:16px;right:16px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#fff;background:#0A0A0A;padding:6px 10px;">IoT / Sensor</div>
+      </div>
+      <div class="work-name-row" style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:16px;">
+        <span class="work-number">02</span>
+        <h3 class="work-name">智能拖鞋</h3>
+      </div>
+      <div class="work-tags" style="margin-top:16px;"><span class="work-tag">产品</span><span class="work-tag">用户体验</span><span class="work-tag">物联网</span><span class="work-tag">互动</span></div>
+    </a>
+
+    <a href="pages/case-03.html" class="work-item work-03 reveal" style="text-decoration:none;color:inherit;">
+      <div class="work-image-wrap" style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;background:#1A3A5C;">
+        <img src="../pdf_pages/page_03.png" alt="Elderly Care" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(30%);">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(10,10,10,0.9) 0%,transparent 100%);padding:32px 24px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#C8B89A;letter-spacing:0.15em;margin-bottom:8px;">03</div>
+          <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.01em;line-height:1.15;margin-bottom:8px;">老年人智能护理</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.2);padding:3px 8px;">UX</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.2);padding:3px 8px;">服务设计</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.2);padding:3px 8px;">用户研究</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="pages/case-04.html" class="work-item work-04 reveal" style="text-decoration:none;color:inherit;">
+      <div class="work-image-wrap" style="width:100%;aspect-ratio:16/9;overflow:hidden;background:#fff;border:1px solid var(--border);margin-bottom:24px;">
+        <img src="../pdf_pages/page_10.png" alt="Tianhe Bus" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(20%);">
+      </div>
+      <div class="work-number">04</div>
+      <h3 class="work-name">天河公交系统设计</h3>
+      <p style="font-size:14px;color:var(--mid-gray);line-height:1.6;max-width:320px;margin-bottom:16px;">对公交信息系统进行大规模改造，使其对乘客更加便捷。</p>
+      <div class="work-tags"><span class="work-tag">服务设计</span><span class="work-tag">信息设计</span><span class="work-tag">UX</span></div>
+    </a>
+
+    <a href="pages/case-05.html" class="work-item work-05 reveal" style="text-decoration:none;color:inherit;">
+      <div style="display:grid;grid-template-columns:1fr;gap:8px;">
+        <div class="work-image-wrap" style="aspect-ratio:16/9;overflow:hidden;background:#F0E6D3;border:1px solid var(--border);">
+          <img src="../pdf_pages/page_12.png" alt="Traditional Culture" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(15%);">
+        </div>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:16px;">
+        <span class="work-number">05</span>
+        <h3 class="work-name">传统文化数字化</h3>
+      </div>
+      <p style="font-size:13px;color:var(--mid-gray);line-height:1.5;margin-top:8px;font-family:'Noto Serif SC',serif;">古琴数字产品与戏曲数字产品的跨学科整合设计</p>
+      <div class="work-tags" style="margin-top:16px;"><span class="work-tag">数字文化</span><span class="work-tag">用户界面</span><span class="work-tag">UX</span><span class="work-tag">界面</span></div>
+    </a>
+  </section>
+
+  <section class="about" id="about">
+    <div class="section-label reveal">关于</div>
+    <h2 class="section-title reveal">关于</h2>
+    <div class="about-path">
+      <div class="about-path-item"><span class="about-path-year">01</span><div><div class="about-path-title">视觉设计</div><div class="about-path-desc">视觉传达基础 — 排版、色彩、图像语言</div></div></div>
+      <div class="about-arrow"><svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M8 2v12M3 9l5 5 5-5"/></svg></div>
+      <div class="about-path-item"><span class="about-path-year">02</span><div><div class="about-path-title">交互设计</div><div class="about-path-desc">从静态到动态 — 用户流程、信息架构、交互逻辑</div></div></div>
+      <div class="about-arrow"><svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M8 2v12M3 9l5 5 5-5"/></svg></div>
+      <div class="about-path-item"><span class="about-path-year">03</span><div><div class="about-path-title">数字体验</div><div class="about-path-desc">整合产品思维 — 用户研究、服务设计、系统整合</div></div></div>
+      <div class="about-arrow"><svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M8 2v12M3 9l5 5 5-5"/></svg></div>
+      <div class="about-path-item"><span class="about-path-year">04</span><div><div class="about-path-title">数字展览</div><div class="about-path-desc">走出屏幕 — 空间交互、展陈设计、物理数字融合</div></div></div>
+    </div>
+    <p class="about-note reveal">从视觉传达出发，逐步向交互设计、数字体验、数字展陈延伸。<br>关注技术与人文的交叉点，相信好的设计是「 beyond the screen 」的。</p>
+  </section>
+
+  <section class="lab" id="lab">
+    <div class="section-label reveal">实验室</div>
+    <h2 class="section-title reveal">实验档案</h2>
+    <ul class="lab-list">
+      <li><a href="#" class="lab-item"><div class="lab-item-left"><span class="lab-item-num">01</span><span class="lab-item-name">AI</span></div><span class="lab-item-arrow">→</span></a></li>
+      <li><a href="#" class="lab-item"><div class="lab-item-left"><span class="lab-item-num">02</span><span class="lab-item-name">Agent</span></div><span class="lab-item-arrow">→</span></a></li>
+      <li><a href="#" class="lab-item"><div class="lab-item-left"><span class="lab-item-num">03</span><span class="lab-item-name">Blender</span></div><span class="lab-item-arrow">→</span></a></li>
+      <li><a href="#" class="lab-item"><div class="lab-item-left"><span class="lab-item-num">04</span><span class="lab-item-name">Arduino</span></div><span class="lab-item-arrow">→</span></a></li>
+      <li><a href="#" class="lab-item"><div class="lab-item-left"><span class="lab-item-num">05</span><span class="lab-item-name">Physical Computing</span></div><span class="lab-item-arrow">→</span></a></li>
+      <li><a href="#" class="lab-item"><div class="lab-item-left"><span class="lab-item-num">06</span><span class="lab-item-name">Visual Experiments</span></div><span class="lab-item-arrow">→</span></a></li>
+    </ul>
+    <p class="lab-note reveal">个人实验项目 · 技术与设计的交叉探索</p>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="section-label reveal">联系</div>
+    <h2 class="contact-title reveal">
+      <span>LET'S</span>
+      <span>CREATE</span>
+      <span>SOMETHING</span>
+      <span>BEYOND</span>
+      <span>THE SCREEN.</span>
+    </h2>
+    <div class="contact-links">
+      <a href="mailto:ouyangjin.design@gmail.com" class="contact-link"><div><div class="contact-link-label">邮箱</div><div class="contact-link-value">ouyangjin.design@gmail.com</div></div><span class="contact-link-arrow">↗</span></a>
+      <a href="#" class="contact-link"><div><div class="contact-link-label">微信</div><div class="contact-link-value">ouyangjin</div></div><span class="contact-link-arrow">↗</span></a>
+      <a href="#" class="contact-link"><div><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">linkedin.com/in/ouyangjin</div></div><span class="contact-link-arrow">↗</span></a>
+      <a href="#" class="contact-link"><div><div class="contact-link-label">简历</div><div class="contact-link-value">下载简历 →</div></div><span class="contact-link-arrow">↗</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+      <p>© 2026 OUYANG JIN</p>
+      <p>设计并开发 by 欧阳槿</p>
+    </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    const menuBtn = document.getElementById('menuBtn');
+    const menuOverlay = document.getElementById('menuOverlay');
+    menuBtn.addEventListener('click', () => { menuBtn.classList.toggle('active'); menuOverlay.classList.toggle('open'); document.body.style.overflow = menuOverlay.classList.contains('open') ? 'hidden' : ''; });
+    menuOverlay.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { menuBtn.classList.remove('active'); menuOverlay.classList.remove('open'); document.body.style.overflow = ''; }); });
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => { observer.observe(el); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>欧阳槿 — Smart Slippers Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0A0A0A;
+      --off-black: #1A1A1A;
+      --dark-gray: #2A2A2A;
+      --mid-gray: #6B6B6B;
+      --light-gray: #9A9A9A;
+      --border: #E5E5E5;
+      --off-white: #F5F5F3;
+      --white: #FFFFFF;
+      --warm: #C8B89A;
+      --warm-dark: #8B6F4E;
+      --tech-accent: #B0A898;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-4xl: 96px;
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+      background: var(--off-white);
+      color: var(--black);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) var(--space-lg);
+      height: 56px;
+      background: var(--off-white);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .header.scrolled { border-bottom: 1px solid var(--border); }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--mid-gray);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .back-btn:hover { color: var(--black); }
+    .back-btn svg { width: 16px; height: 16px; }
+
+    .project-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .project-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--mid-gray);
+      letter-spacing: 0.1em;
+    }
+    .project-nav-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--light-gray);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .project-nav-link:hover { color: var(--black); }
+
+    /* ── HERO / COVER ── */
+    .cover {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--space-lg) var(--space-3xl);
+      position: relative;
+      background: var(--black);
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    .cover-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .cover-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      filter: grayscale(20%);
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .cover-label::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--warm);
+    }
+
+    .cover-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(48px, 15vw, 72px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      margin-bottom: var(--space-lg);
+    }
+
+    .cover-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      color: var(--light-gray);
+      line-height: 1.6;
+      max-width: 320px;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .cover-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      padding-top: var(--space-xl);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .cover-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cover-meta-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+    }
+
+    .cover-meta-value {
+      font-size: 13px;
+      color: var(--white);
+    }
+
+    .cover-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-xl);
+    }
+
+    .cover-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm);
+      border: 1px solid var(--warm);
+      padding: 6px 10px;
+    }
+
+    .cover-scroll {
+      position: absolute;
+      bottom: var(--space-lg);
+      right: var(--space-lg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(4px); }
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: var(--space-3xl) var(--space-lg); }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .section-label::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--warm);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 9vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: var(--space-xl);
+    }
+
+    /* ── PROBLEM ── */
+    .problem { border-top: 1px solid var(--border); }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .problem-stat {
+      padding: var(--space-lg);
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .problem-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--warm);
+      line-height: 1;
+      margin-bottom: var(--space-sm);
+    }
+
+    .problem-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      line-height: 1.4;
+    }
+
+    .problem-scenarios {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
+    }
+
+    .problem-scenario {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: var(--space-md);
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+
+    .problem-scenario-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--warm);
+      letter-spacing: 0.1em;
+      padding-top: 4px;
+    }
+
+    .problem-scenario-content h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .problem-scenario-content p {
+      font-size: 14px;
+      color: var(--mid-gray);
+      line-height: 1.6;
+    }
+
+    /* ── INSIGHT ── */
+    .insight { border-top: 1px solid var(--border); }
+
+    .insight-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      margin-bottom: var(--space-xl);
+      background: var(--dark-gray);
+    }
+    .insight-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .insight-points {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    .insight-point {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+    }
+
+    .insight-point-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--warm);
+    }
+
+    .insight-point-text {
+      font-size: 17px;
+      line-height: 1.6;
+      font-family: 'Noto Serif SC', serif;
+    }
+
+    /* ── SCENARIO ── */
+    .scenario { border-top: 1px solid var(--border); }
+
+    .scenario-flow {
+      margin-top: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .scenario-step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: var(--space-md);
+      padding: var(--space-lg) 0;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+    .scenario-step:first-child { border-top: 1px solid var(--border); }
+
+    .scenario-step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--warm);
+      letter-spacing: 0.1em;
+    }
+
+    .scenario-step-content {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+    }
+
+    .scenario-step-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .scenario-step-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--warm);
+    }
+
+    .scenario-step-text h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .scenario-step-text p {
+      font-size: 13px;
+      color: var(--mid-gray);
+    }
+
+    .scenario-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-sm) 0;
+    }
+    .scenario-arrow svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--warm);
+    }
+
+    /* ── PRODUCT ── */
+    .product { border-top: 1px solid var(--border); }
+
+    .product-showcase {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      margin-bottom: var(--space-xl);
+      background: #E8E4DD;
+      border: 1px solid var(--border);
+    }
+    .product-showcase img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .product-feature {
+      background: var(--off-white);
+      padding: var(--space-lg);
+    }
+
+    .product-feature-icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: var(--space-sm);
+    }
+    .product-feature-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: var(--warm);
+    }
+
+    .product-feature-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .product-feature-desc {
+      font-size: 12px;
+      color: var(--mid-gray);
+      line-height: 1.5;
+    }
+
+    /* ── TECHNOLOGY ── */
+    .technology { border-top: 1px solid var(--border); }
+
+    .tech-system {
+      margin-top: var(--space-xl);
+      padding: var(--space-lg);
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .tech-system-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .tech-system-diagram {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .tech-node {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md);
+      border: 1px solid var(--dark-gray);
+    }
+
+    .tech-node-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .tech-node-desc {
+      font-size: 12px;
+      color: var(--light-gray);
+    }
+
+    .tech-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-sm) 0;
+    }
+    .tech-flow svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--warm);
+    }
+
+    /* ── STRUCTURE ── */
+    .structure { border-top: 1px solid var(--border); }
+
+    .structure-image {
+      width: 100%;
+      aspect-ratio: 1/1;
+      overflow: hidden;
+      margin-bottom: var(--space-xl);
+      background: var(--dark-gray);
+      border: 1px solid var(--border);
+    }
+    .structure-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .structure-layers {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .structure-layer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .structure-layer-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .structure-layer-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--warm);
+      letter-spacing: 0.1em;
+      min-width: 24px;
+    }
+
+    .structure-layer-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .structure-layer-desc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--light-gray);
+    }
+
+    /* ── PROTOTYPE ── */
+    .prototype-section { border-top: 1px solid var(--border); }
+
+    .prototype-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .prototype-item {
+      aspect-ratio: 9/16;
+      max-height: 500px;
+      overflow: hidden;
+      background: var(--dark-gray);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .prototype-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .prototype-item-label {
+      position: absolute;
+      bottom: var(--space-md);
+      left: var(--space-md);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: rgba(10,10,10,0.8);
+      padding: 6px 10px;
+    }
+
+    /* ── FINAL ── */
+    .final { border-top: 1px solid var(--border); }
+
+    .final-image {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      margin-bottom: var(--space-xl);
+      background: var(--dark-gray);
+    }
+    .final-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .final-quote {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--mid-gray);
+      padding-left: var(--space-lg);
+      border-left: 2px solid var(--warm);
+      margin-bottom: var(--space-xl);
+    }
+
+    .final-values {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .final-value {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: var(--space-md);
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+
+    .final-value-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--warm);
+      letter-spacing: 0.1em;
+      padding-top: 4px;
+    }
+
+    .final-value-content h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .final-value-content p {
+      font-size: 14px;
+      color: var(--mid-gray);
+      line-height: 1.6;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: var(--space-4xl) var(--space-lg);
+    }
+
+    .cta-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: var(--space-lg);
+    }
+
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 8vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: var(--space-xl);
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: 16px 32px;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--black);
+      transition: all 0.3s var(--easing);
+    }
+    .cta-btn:hover {
+      background: transparent;
+      color: var(--black);
+    }
+    .cta-btn svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s var(--easing);
+    }
+    .cta-btn:hover svg { transform: translate(4px, -4px); }
+
+    .cta-note {
+      margin-top: var(--space-lg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--light-gray);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: var(--space-lg);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--light-gray);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s var(--easing), transform 0.7s var(--easing);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M14 8H2M2 8l6-6M2 8l6 6"/>
+      </svg>
+      返回
+    </a>
+    <div class="project-nav">
+      <a href="case-01.html" class="project-nav-link">← 01</a>
+      <span class="project-num">02 / 05</span>
+      <a href="case-03.html" class="project-nav-link">03 →</a>
+    </div>
+  </header>
+
+  <!-- 01 / HERO -->
+  <section class="cover" id="cover">
+    <div class="cover-bg">
+      <img src="../pdf_pages/page_08.png" alt="Smart Slippers 产品展示">
+    </div>
+    <div class="cover-content">
+      <div class="cover-label">产品 / IoT / 交互</div>
+      <h1 class="cover-title">SMART<br>SLIPPERS</h1>
+      <p class="cover-subtitle">A smart footwear experience for safer nighttime movement.</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">焦点</span>
+          <span class="cover-meta-value">Elderly Safety · IoT Integration</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">技术</span>
+          <span class="cover-meta-value">UHF RFID · Sensor Fusion</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">角色</span>
+          <span class="cover-meta-value">产品 + UX Designer</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">年份</span>
+          <span class="cover-meta-value">2024</span>
+        </div>
+      </div>
+      <div class="cover-tags">
+        <span class="cover-tag">产品</span>
+        <span class="cover-tag">UX</span>
+        <span class="cover-tag">IoT</span>
+        <span class="cover-tag">交互</span>
+      </div>
+    </div>
+    <div class="cover-scroll">Scroll</div>
+  </section>
+
+  <!-- 02 / PROBLEM -->
+  <section class="problem" id="problem">
+    <div class="section-label reveal">问题</div>
+    <h2 class="section-title reveal">问题的本质</h2>
+    <div class="problem-grid reveal">
+      <div class="problem-stat">
+        <div class="problem-stat-num">25%</div>
+        <div class="problem-stat-label">65岁以上老人每年跌倒一次<br>跌倒是老年伤害死亡的首要原因</div>
+      </div>
+    </div>
+    <div class="problem-scenarios reveal">
+      <div class="problem-scenario">
+        <span class="problem-scenario-num">01</span>
+        <div class="problem-scenario-content">
+          <h4>夜间行动风险</h4>
+          <p>老年人夜间起夜时，光线不足导致视觉敏感度下降，容易在卧室到卫生间的路径上跌倒。</p>
+        </div>
+      </div>
+      <div class="problem-scenario">
+        <span class="problem-scenario-num">02</span>
+        <div class="problem-scenario-content">
+          <h4>照明响应延迟</h4>
+          <p>传统声控或手动开关需要额外操作，老年人在昏暗环境中难以快速触发，增加危险时间。</p>
+        </div>
+      </div>
+      <div class="problem-scenario">
+        <span class="problem-scenario-num">03</span>
+        <div class="problem-scenario-content">
+          <h4>跌倒检测滞后</h4>
+          <p>传统监护设备无法实时感知跌倒，等发现时已经造成二次伤害或延误救治时机。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 / INSIGHT -->
+  <section class="insight" id="insight">
+    <div class="section-label reveal">洞察</div>
+    <h2 class="section-title reveal">关键洞察</h2>
+    <div class="insight-image reveal">
+      <img src="../pdf_pages/page_07.png" alt="用户研究场景">
+    </div>
+    <div class="insight-points reveal">
+      <div class="insight-point">
+        <div class="insight-point-label">洞察 01</div>
+        <p class="insight-point-text">老年人夜间行动具有「习惯性」特征——他们会在固定时间起床、固定路径行走。这意味着我们可以通过感知行为模式来实现无感触发。</p>
+      </div>
+      <div class="insight-point">
+        <div class="insight-point-label">洞察 02</div>
+        <p class="insight-point-text">穿鞋是夜间行动的必然动作。将感应技术嵌入拖鞋，可以在用户迈出第一步时即完成身份识别与环境联动，实现「零操作」体验。</p>
+      </div>
+      <div class="insight-point">
+        <div class="insight-point-label">洞察 03</div>
+        <p class="insight-point-text">跌倒 detection 需要在接触地面瞬间完成，而非跌倒后。通过鞋底压力传感器+加速度计，可以在失衡发生的毫秒级时间内做出响应。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 / SCENARIO -->
+  <section class="scenario" id="scenario">
+    <div class="section-label reveal">场景</div>
+    <h2 class="section-title reveal">交互流程</h2>
+    <div class="scenario-flow reveal">
+      <div class="scenario-step">
+        <span class="scenario-step-num">01</span>
+        <div class="scenario-step-content">
+          <div class="scenario-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="scenario-step-text">
+            <h4>老人起床穿鞋</h4>
+            <p>夜间触发，拖鞋内置 UHF RFID Tag 随脚部移动</p>
+          </div>
+        </div>
+      </div>
+      <div class="scenario-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+          <path d="M8 2v12M3 9l5 5 5-5"/>
+        </svg>
+      </div>
+      <div class="scenario-step">
+        <span class="scenario-step-num">02</span>
+        <div class="scenario-step-content">
+          <div class="scenario-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <div class="scenario-step-text">
+            <h4>RFID 感应识别</h4>
+            <p>Reader 读取 Tag 信号，确认用户身份与位置</p>
+          </div>
+        </div>
+      </div>
+      <div class="scenario-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+          <path d="M8 2v12M3 9l5 5 5-5"/>
+        </svg>
+      </div>
+      <div class="scenario-step">
+        <span class="scenario-step-num">03</span>
+        <div class="scenario-step-content">
+          <div class="scenario-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          </div>
+          <div class="scenario-step-text">
+            <h4>灯光自动开启</h4>
+            <p>系统触发卧室/走廊照明，无需手动操作</p>
+          </div>
+        </div>
+      </div>
+      <div class="scenario-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+          <path d="M8 2v12M3 9l5 5 5-5"/>
+        </svg>
+      </div>
+      <div class="scenario-step">
+        <span class="scenario-step-num">04</span>
+        <div class="scenario-step-content">
+          <div class="scenario-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <div class="scenario-step-text">
+            <h4>跌倒监测与响应</h4>
+            <p>传感器实时监测步态，检测到异常立即报警</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 / PRODUCT -->
+  <section class="product" id="product">
+    <div class="section-label reveal">产品</div>
+    <h2 class="section-title reveal">产品设计</h2>
+    <div class="product-showcase reveal">
+      <img src="../pdf_pages/page_08.png" alt="Smart Slippers 产品视觉">
+    </div>
+    <div class="product-features reveal">
+      <div class="product-feature">
+        <div class="product-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="product-feature-title">人体工学鞋型</div>
+        <div class="product-feature-desc">针对老年人足部特征设计，足弓支撑，防滑鞋底</div>
+      </div>
+      <div class="product-feature">
+        <div class="product-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div class="product-feature-title">TPU 后跟保护</div>
+        <div class="product-feature-desc">缓冲减震，保护跟骨，降低跌倒冲击伤害</div>
+      </div>
+      <div class="product-feature">
+        <div class="product-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+            <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            <circle cx="12" cy="20" r="1"/>
+          </svg>
+        </div>
+        <div class="product-feature-title">UHF RFID 集成</div>
+        <div class="product-feature-desc">鞋底嵌入 Tag，无感识别，续航超过 3 年</div>
+      </div>
+      <div class="product-feature">
+        <div class="product-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </div>
+        <div class="product-feature-title">跌倒报警</div>
+        <div class="product-feature-desc">加速度计+压力传感器融合，毫秒级响应</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 / TECHNOLOGY -->
+  <section class="technology" id="technology">
+    <div class="section-label reveal">技术</div>
+    <h2 class="section-title reveal">技术架构</h2>
+    <div class="tech-system reveal">
+      <div class="tech-system-title">System Architecture</div>
+      <div class="tech-system-diagram">
+        <div class="tech-node">
+          <span class="tech-node-label">UHF RFID Tag</span>
+          <span class="tech-node-desc">嵌入鞋底 · 被动式 · 3年续航</span>
+        </div>
+        <div class="tech-flow">
+          <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M8 2v12M3 9l5 5 5-5"/>
+          </svg>
+        </div>
+        <div class="tech-node">
+          <span class="tech-node-label">Reader / Gateway</span>
+          <span class="tech-node-desc">卧室入口 · 10m 识别半径</span>
+        </div>
+        <div class="tech-flow">
+          <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M8 2v12M3 9l5 5 5-5"/>
+          </svg>
+        </div>
+        <div class="tech-node">
+          <span class="tech-node-label">Control Unit</span>
+          <span class="tech-node-desc">家庭网关 · 灯光/报警联动</span>
+        </div>
+        <div class="tech-flow">
+          <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M8 2v12M3 9l5 5 5-5"/>
+          </svg>
+        </div>
+        <div class="tech-node">
+          <span class="tech-node-label">Lighting System</span>
+          <span class="tech-node-desc">感应触发 · 渐亮渐暗</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 / STRUCTURE -->
+  <section class="structure" id="structure">
+    <div class="section-label reveal">结构</div>
+    <h2 class="section-title reveal">结构设计</h2>
+    <div class="structure-image reveal">
+      <img src="../pdf_pages/page_09.png" alt="Smart Slippers 结构分解">
+    </div>
+    <div class="structure-layers reveal">
+      <div class="structure-layer">
+        <div class="structure-layer-left">
+          <span class="structure-layer-num">01</span>
+          <span class="structure-layer-name">鞋底层</span>
+        </div>
+        <span class="structure-layer-desc">防滑橡胶 · 压力传感器阵列</span>
+      </div>
+      <div class="structure-layer">
+        <div class="structure-layer-left">
+          <span class="structure-layer-num">02</span>
+          <span class="structure-layer-name">RFID 模块</span>
+        </div>
+        <span class="structure-layer-desc">UHF Tag · 天线 · 封装层</span>
+      </div>
+      <div class="structure-layer">
+        <div class="structure-layer-left">
+          <span class="structure-layer-num">03</span>
+          <span class="structure-layer-name">中底缓震</span>
+        </div>
+        <span class="structure-layer-desc">EVA 材料 · 足弓支撑</span>
+      </div>
+      <div class="structure-layer">
+        <div class="structure-layer-left">
+          <span class="structure-layer-num">04</span>
+          <span class="structure-layer-name">TPU 后跟</span>
+        </div>
+        <span class="structure-layer-desc">冲击吸收 · 稳定性增强</span>
+      </div>
+      <div class="structure-layer">
+        <div class="structure-layer-left">
+          <span class="structure-layer-num">05</span>
+          <span class="structure-layer-name">鞋垫层</span>
+        </div>
+        <span class="structure-layer-desc">抑菌材质 · 可拆卸清洗</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 / PROTOTYPE -->
+  <section class="prototype-section" id="prototype">
+    <div class="section-label reveal">原型</div>
+    <h2 class="section-title reveal">交互原型</h2>
+    <div class="prototype-grid reveal">
+      <div class="prototype-item">
+        <img src="../pdf_pages/page_07.png" alt="用户研究界面">
+        <span class="prototype-item-label">用户研究界面</span>
+      </div>
+      <div class="prototype-item">
+        <img src="../pdf_pages/page_08.png" alt="产品使用场景">
+        <span class="prototype-item-label">产品使用场景</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 / FINAL -->
+  <section class="final" id="final">
+    <div class="section-label reveal">最终</div>
+    <h2 class="section-title reveal">最终呈现</h2>
+    <div class="final-image reveal">
+      <img src="../pdf_pages/page_08.png" alt="Smart Slippers 最终产品图">
+    </div>
+    <p class="final-quote reveal">
+      这款智能拖鞋将 IoT 技术无缝融入日常穿戴，让安全监护变得无感而自然。用户无需学习任何操作，系统自动完成身份识别、环境联动与风险预警。
+    </p>
+    <div class="final-values reveal">
+      <div class="final-value">
+        <span class="final-value-num">01</span>
+        <div class="final-value-content">
+          <h4>产品 Thinking</h4>
+          <p>从用户需求出发，定义产品形态、材质、结构，而非单纯堆叠技术。</p>
+        </div>
+      </div>
+      <div class="final-value">
+        <span class="final-value-num">02</span>
+        <div class="final-value-content">
+          <h4>UX Thinking</h4>
+          <p>零学习成本，无感触发，让技术隐于无形，体验自然流畅。</p>
+        </div>
+      </div>
+      <div class="final-value">
+        <span class="final-value-num">03</span>
+        <div class="final-value-content">
+          <h4>IoT 交互</h4>
+          <p>多设备联动，从拖鞋到灯光到报警，构建完整的智能家居安全闭环。</p>
+        </div>
+      </div>
+      <div class="final-value">
+        <span class="final-value-num">04</span>
+        <div class="final-value-content">
+          <h4>Physical 产品</h4>
+          <p>鞋型、材质、结构一体化设计，技术模块隐形嵌入，不影响日常穿着体验。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 / RESULT -->
+  <section class="outcome" id="outcome">
+    <div class="section-label reveal">成果</div>
+    <h2 class="section-title reveal">设计价值</h2>
+    <div class="overview-grid reveal">
+      <div class="overview-item">
+        <div class="overview-item-label">解决的问题</div>
+        <div class="overview-item-value">老年人夜间跌倒风险高、照明响应延迟、跌倒检测滞后三大痛点，通过无感 IoT 方案实现毫秒级响应。</div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-item-label">设计带来的价值</div>
+        <div class="overview-item-value">零操作门槛，老人无需学习即可使用；夜间行动更安全，跌倒报警及时，家庭监护更安心。</div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-item-label">技术可行性</div>
+        <div class="overview-item-value">UHF RFID 技术成熟，成本可控；传感器融合算法稳定；与智能家居生态兼容。</div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-item-label">落地情况</div>
+        <div class="overview-item-value">完成产品原型设计与交互验证，技术规格书已交付，进入打样测试阶段。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 / CTA -->
+  <section class="cta" id="cta">
+    <div class="cta-label reveal">原型</div>
+    <h2 class="cta-title reveal">
+      体验这个智能<br>夜间安全方案
+    </h2>
+    <a href="https://www.figma.com/proto/your-prototype-link" class="cta-btn reveal">
+      <span>体验交互原型</span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M4 12L12 4M12 4H6M12 4v6"/>
+      </svg>
+    </a>
+    <p class="cta-note reveal">Interactive 原型 · Figma</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 OUYANG JIN</p>
+    <p>02 / 05</p>
+  </footer>
+
+  <script>
+    // Header scroll state
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Intersection Observer for reveal animations
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

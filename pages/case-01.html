@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>欧阳槿 — 淳六味中药材博物馆 Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0A0A0A;
+      --off-black: #1A1A1A;
+      --dark-gray: #2A2A2A;
+      --mid-gray: #6B6B6B;
+      --light-gray: #9A9A9A;
+      --border: #E5E5E5;
+      --off-white: #F5F5F3;
+      --white: #FFFFFF;
+      --warm: #C8B89A;
+      --warm-dark: #8B6F4E;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-4xl: 96px;
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+      background: var(--off-white);
+      color: var(--black);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) var(--space-lg);
+      height: 56px;
+      background: var(--off-white);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .header.scrolled { border-bottom: 1px solid var(--border); }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--mid-gray);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .back-btn:hover { color: var(--black); }
+    .back-btn svg { width: 16px; height: 16px; }
+
+    .project-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--warm);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── HERO / COVER ── */
+    .cover {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--space-lg) var(--space-3xl);
+      position: relative;
+      background: var(--black);
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    .cover-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .cover-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      filter: grayscale(30%);
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .cover-label::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--warm);
+    }
+
+    .cover-title-cn {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      margin-bottom: var(--space-sm);
+    }
+
+    .cover-title-en {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: var(--space-xl);
+      line-height: 1.8;
+    }
+
+    .cover-meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .cover-meta-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .cover-meta-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+    }
+
+    .cover-meta-value {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--white);
+    }
+
+    .cover-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .cover-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm);
+      border: 1px solid var(--warm);
+      padding: 6px 10px;
+    }
+
+    .cover-scroll {
+      position: absolute;
+      bottom: var(--space-lg);
+      right: var(--space-lg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(4px); }
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: var(--space-3xl) var(--space-lg); }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .section-label::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--warm);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 9vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: var(--space-xl);
+    }
+
+    /* ── OVERVIEW ── */
+    .overview { border-top: 1px solid var(--border); }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .overview-item {
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--border);
+    }
+    .overview-item:last-child { border-bottom: none; }
+
+    .overview-item-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: var(--space-xs);
+    }
+
+    .overview-item-value {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--black);
+    }
+
+    .overview-lead {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--mid-gray);
+      margin-bottom: var(--space-xl);
+      padding-left: var(--space-lg);
+      border-left: 2px solid var(--warm);
+    }
+
+    /* ── CONTEXT ── */
+    .context { border-top: 1px solid var(--border); }
+
+    .context-image {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      margin-bottom: var(--space-xl);
+      background: var(--dark-gray);
+    }
+    .context-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%);
+    }
+
+    .context-points {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+
+    .context-point {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: var(--space-md);
+    }
+
+    .context-point-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--warm);
+      line-height: 1;
+    }
+
+    .context-point-content h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: var(--space-xs);
+    }
+
+    .context-point-content p {
+      font-size: 14px;
+      color: var(--mid-gray);
+      line-height: 1.6;
+    }
+
+    /* ── RESEARCH ── */
+    .research { border-top: 1px solid var(--border); }
+
+    .research-findings {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xl);
+      margin-top: var(--space-xl);
+    }
+
+    .research-finding {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .research-finding-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: var(--dark-gray);
+    }
+    .research-finding-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .research-finding-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: var(--space-sm);
+    }
+
+    .research-finding-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: var(--space-sm);
+    }
+
+    .research-finding-desc {
+      font-size: 14px;
+      color: var(--mid-gray);
+      line-height: 1.7;
+    }
+
+    .research-stat {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--border);
+    }
+
+    .research-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--warm-dark);
+      line-height: 1;
+    }
+
+    .research-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      line-height: 1.4;
+    }
+
+    /* ── EXPERIENCE STRATEGY ── */
+    .strategy { border-top: 1px solid var(--border); }
+
+    .strategy-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: var(--space-xl);
+    }
+
+    .strategy-step {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: var(--space-md);
+      padding: var(--space-lg) 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .strategy-step:first-child { border-top: 1px solid var(--border); }
+
+    .strategy-step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--warm);
+      letter-spacing: 0.1em;
+      padding-top: 4px;
+    }
+
+    .strategy-step-content h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--space-xs);
+    }
+
+    .strategy-step-content p {
+      font-size: 14px;
+      color: var(--mid-gray);
+      line-height: 1.6;
+    }
+
+    .strategy-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-sm) 0;
+    }
+    .strategy-arrow svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--warm);
+    }
+
+    /* ── INFORMATION ARCHITECTURE ── */
+    .ia { border-top: 1px solid var(--border); }
+
+    .ia-tree {
+      margin-top: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .ia-node {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ia-node-depth-1 { padding-left: var(--space-md); }
+    .ia-node-depth-2 { padding-left: var(--space-xl); }
+    .ia-node-depth-3 { padding-left: var(--space-2xl); }
+
+    .ia-node-bullet {
+      width: 6px;
+      height: 6px;
+      background: var(--black);
+      flex-shrink: 0;
+    }
+    .ia-node-depth-2 .ia-node-bullet { background: var(--warm); }
+    .ia-node-depth-3 .ia-node-bullet { background: var(--light-gray); }
+
+    .ia-node-label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .ia-node-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--light-gray);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── INTERACTION ── */
+    .interaction { border-top: 1px solid var(--border); }
+
+    .interaction-steps {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xl);
+      margin-top: var(--space-xl);
+    }
+
+    .interaction-step {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .interaction-step-header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-md);
+    }
+
+    .interaction-step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--warm);
+      letter-spacing: 0.15em;
+    }
+
+    .interaction-step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .interaction-step-image {
+      width: 100%;
+      aspect-ratio: 9/16;
+      max-height: 400px;
+      overflow: hidden;
+      background: var(--dark-gray);
+      border: 1px solid var(--border);
+    }
+    .interaction-step-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .interaction-step-desc {
+      font-size: 14px;
+      color: var(--mid-gray);
+      line-height: 1.7;
+    }
+
+    /* ── 界面 SYSTEM ── */
+    .uisystem { border-top: 1px solid var(--border); }
+
+    .uisystem-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-2xl);
+      margin-top: var(--space-xl);
+    }
+
+    .uisystem-block h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: var(--space-md);
+    }
+
+    .uisystem-typography {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .typo-sample {
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--border);
+    }
+    .typo-sample-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--light-gray);
+      margin-bottom: 4px;
+    }
+    .typo-sample-value {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .uisystem-color {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+    }
+    .color-swatch {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8px;
+    }
+    .color-swatch-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--mid-gray);
+    }
+
+    .uisystem-components {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .ui-comp {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ui-comp-label {
+      font-size: 13px;
+      color: var(--mid-gray);
+    }
+
+    /* ── FINAL EXPERIENCE ── */
+    .final { border-top: 1px solid var(--border); }
+
+    .final-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .final-image {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--dark-gray);
+    }
+    .final-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .final-image.wide { aspect-ratio: 16/9; }
+    .final-image.tall { aspect-ratio: 3/4; }
+
+    .final-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--light-gray);
+      letter-spacing: 0.05em;
+      margin-top: var(--space-sm);
+    }
+
+    /* ── OUTCOME ── */
+    .outcome { border-top: 1px solid var(--border); }
+
+    .outcome-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .outcome-stat {
+      padding: var(--space-lg);
+      border: 1px solid var(--border);
+    }
+
+    .outcome-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--warm-dark);
+      line-height: 1;
+      margin-bottom: var(--space-sm);
+    }
+
+    .outcome-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      line-height: 1.4;
+    }
+
+    .outcome-text {
+      margin-top: var(--space-2xl);
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--mid-gray);
+      padding-left: var(--space-lg);
+      border-left: 2px solid var(--warm);
+    }
+
+    /* ── PROTOTYPE CTA ── */
+    .prototype {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: var(--space-4xl) var(--space-lg);
+    }
+
+    .prototype-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: var(--space-lg);
+    }
+
+    .prototype-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 8vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: var(--space-xl);
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .prototype-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: 16px 32px;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--black);
+      transition: all 0.3s var(--easing);
+    }
+    .prototype-btn:hover {
+      background: transparent;
+      color: var(--black);
+    }
+    .prototype-btn svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s var(--easing);
+    }
+    .prototype-btn:hover svg { transform: translate(4px, -4px); }
+
+    .prototype-note {
+      margin-top: var(--space-lg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--light-gray);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: var(--space-lg);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--light-gray);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s var(--easing), transform 0.7s var(--easing);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M14 8H2M2 8l6-6M2 8l6 6"/>
+      </svg>
+      返回
+    </a>
+    <span class="project-num">01 / 05</span>
+    <a href="case-02.html" class="project-nav-link">02 →</a>
+  </header>
+
+  <!-- 01 / COVER -->
+  <section class="cover" id="cover">
+    <div class="cover-bg">
+      <img src="../pdf_pages/page_21.png" alt="淳六味三产布局可视化">
+    </div>
+    <div class="cover-content">
+      <div class="cover-label">数字展陈</div>
+      <h1 class="cover-title-cn">淳六味中药材博物馆</h1>
+      <p class="cover-title-en">
+        CHUN LIU WEI<br>
+        TRADITIONAL MEDICINE MUSEUM
+      </p>
+      <div class="cover-meta">
+        <div class="cover-meta-row">
+          <span class="cover-meta-label">委托方</span>
+          <span class="cover-meta-value">淳安县临岐镇 · 淳六味产业</span>
+        </div>
+        <div class="cover-meta-row">
+          <span class="cover-meta-label">角色</span>
+          <span class="cover-meta-value">Digital Experience Designer</span>
+        </div>
+        <div class="cover-meta-row">
+          <span class="cover-meta-label">年份</span>
+          <span class="cover-meta-value">2024</span>
+        </div>
+      </div>
+      <div class="cover-tags">
+        <span class="cover-tag">数字展览</span>
+        <span class="cover-tag">互动</span>
+        <span class="cover-tag">UX</span>
+        <span class="cover-tag">界面</span>
+        <span class="cover-tag">Experience</span>
+      </div>
+    </div>
+    <div class="cover-scroll">Scroll</div>
+  </section>
+
+  <!-- 02 / OVERVIEW -->
+  <section class="overview" id="overview">
+    <div class="section-label reveal">概述</div>
+    <h2 class="section-title reveal">项目概述</h2>
+    <p class="overview-lead reveal">
+      为淳安县临岐镇"淳六味"中药材产业打造数字化展示体验，将六味道地药材的种植、加工、文化内涵通过数字展陈系统呈现，构建从一产到三产的完整产业叙事。
+    </p>
+    <div class="overview-grid reveal">
+      <div class="overview-item">
+        <div class="overview-item-label">项目背景</div>
+        <div class="overview-item-value">临岐镇是淳安县中药材核心产区，拥有覆盆子、山茱萸、前胡、黄精、重楼、三叶青六味道地药材。项目旨在通过数字化手段展示产业全貌，提升品牌认知与文化传播。</div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-item-label">项目目标</div>
+        <div class="overview-item-value">构建沉浸式数字展陈体验，实现产业数据可视化、药材知识普及、互动学习、文化传承四大功能。</div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-item-label">我的角色</div>
+        <div class="overview-item-value">数字体验设计 — 负责整体体验策略、信息架构、交互设计、界面系统设计、视觉呈现。</div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-item-label">项目范围</div>
+        <div class="overview-item-value">产业布局可视化大屏、互动答题系统、体质食疗模块、三产导航系统、数字博物馆导览。</div>
+      </div>
+      <div class="overview-item">
+        <div class="overview-item-label">最终成果</div>
+        <div class="overview-item-value">完整的数字展陈系统设计方案，涵盖可视化大屏、移动端互动、线下展厅体验一体化设计。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 / CONTEXT -->
+  <section class="context" id="context">
+    <div class="section-label reveal">背景</div>
+    <h2 class="section-title reveal">背景与场景</h2>
+    <div class="context-image reveal">
+      <img src="../pdf_pages/page_22.png" alt="杭州市中药材产业分布">
+    </div>
+    <div class="context-points reveal">
+      <div class="context-point">
+        <span class="context-point-num">01</span>
+        <div class="context-point-content">
+          <h4>传统中药材文化</h4>
+          <p>淳六味是浙江淳安临岐镇的道地药材品牌，拥有千年种植历史与交易传统。六味药材各有其独特的生长环境与炮制工艺。</p>
+        </div>
+      </div>
+      <div class="context-point">
+        <span class="context-point-num">02</span>
+        <div class="context-point-content">
+          <h4>博物馆展示场景</h4>
+          <p>线下展厅需要展示从种植到加工到文旅的完整产业链，传统展板难以承载丰富的数据与动态信息。</p>
+        </div>
+      </div>
+      <div class="context-point">
+        <span class="context-point-num">03</span>
+        <div class="context-point-content">
+          <h4>用户需求</h4>
+          <p>游客希望直观了解药材知识、产地分布、加工工艺；企业代表需要掌握产业数据；政府需要展示产业成果。</p>
+        </div>
+      </div>
+      <div class="context-point">
+        <span class="context-point-num">04</span>
+        <div class="context-point-content">
+          <h4>数字化展示需求</h4>
+          <p>通过数字手段实现：产业数据可视化、药材知识互动学习、体质食疗个性化推荐、沉浸式空间体验。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 / RESEARCH -->
+  <section class="research" id="research">
+    <div class="section-label reveal">研究</div>
+    <h2 class="section-title reveal">关键发现</h2>
+    <div class="research-findings">
+      <div class="research-finding reveal">
+        <div class="research-finding-image">
+          <img src="../pdf_pages/page_21.png" alt="产业链可视化">
+        </div>
+        <div class="research-finding-num">Key Finding 01</div>
+        <h3 class="research-finding-title">产业链信息需要可视化呈现</h3>
+        <p class="research-finding-desc">六味药材的种植、加工、运输环节分散在不同地理空间，传统文字描述难以传达产业全貌。需要通过地图可视化、数据图表直观展示三产布局。</p>
+        <div class="research-stat">
+          <span class="research-stat-num">5.5</span>
+          <span class="research-stat-label">万亩<br>种植规模</span>
+        </div>
+      </div>
+      <div class="research-finding reveal">
+        <div class="research-finding-num">Key Finding 02</div>
+        <h3 class="research-finding-title">互动学习提升认知深度</h3>
+        <p class="research-finding-desc">通过答题、测试等互动形式，可以有效提升游客对药材知识的记忆与理解。不同身份用户（企业代表、人大代表、普通游客）有不同学习需求。</p>
+      </div>
+      <div class="research-finding reveal">
+        <div class="research-finding-num">Key Finding 03</div>
+        <h3 class="research-finding-title">体质食疗建立个人连接</h3>
+        <p class="research-finding-desc">将药材知识与中医体质理论结合，为用户提供个性化食疗建议，建立从"知道"到"用到"的体验闭环，提升用户粘性与分享意愿。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 / EXPERIENCE STRATEGY -->
+  <section class="strategy" id="strategy">
+    <div class="section-label reveal">体验策略</div>
+    <h2 class="section-title reveal">体验策略</h2>
+    <div class="strategy-flow reveal">
+      <div class="strategy-step">
+        <span class="strategy-step-num">01</span>
+        <div class="strategy-step-content">
+          <h4>用户</h4>
+          <p>游客、企业代表、人大代表、政府人员 — 不同身份有不同的信息需求与使用场景。</p>
+        </div>
+      </div>
+      <div class="strategy-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+          <path d="M8 2v12M3 9l5 5 5-5"/>
+        </svg>
+      </div>
+      <div class="strategy-step">
+        <span class="strategy-step-num">02</span>
+        <div class="strategy-step-content">
+          <h4>内容</h4>
+          <p>六味药材知识、产业数据、地理分布、炮制工艺、体质食疗 — 构建完整的知识体系。</p>
+        </div>
+      </div>
+      <div class="strategy-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+          <path d="M8 2v12M3 9l5 5 5-5"/>
+        </svg>
+      </div>
+      <div class="strategy-step">
+        <span class="strategy-step-num">03</span>
+        <div class="strategy-step-content">
+          <h4>空间</h4>
+          <p>线下展厅大屏 + 移动端互动 + 沉浸式视觉 — 多终端协同的数字展陈空间。</p>
+        </div>
+      </div>
+      <div class="strategy-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+          <path d="M8 2v12M3 9l5 5 5-5"/>
+        </svg>
+      </div>
+      <div class="strategy-step">
+        <span class="strategy-step-num">04</span>
+        <div class="strategy-step-content">
+          <h4>交互</h4>
+          <p>地图探索、答题互动、体质测试、内容浏览 — 通过多样化交互建立深度参与。</p>
+        </div>
+      </div>
+      <div class="strategy-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
+          <path d="M8 2v12M3 9l5 5 5-5"/>
+        </svg>
+      </div>
+      <div class="strategy-step">
+        <span class="strategy-step-num">05</span>
+        <div class="strategy-step-content">
+          <h4>数字媒体</h4>
+          <p>数据可视化大屏、移动端 H5、互动答题系统、体质食疗推荐 — 多形态数字触点。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 / INFORMATION ARCHITECTURE -->
+  <section class="ia" id="ia">
+    <div class="section-label reveal">信息架构</div>
+    <h2 class="section-title reveal">信息架构</h2>
+    <div class="ia-tree reveal">
+      <div class="ia-node ia-node-depth-1">
+        <div class="ia-node-bullet"></div>
+        <div>
+          <div class="ia-node-label">首页 / 总览</div>
+          <div class="ia-node-sub">产业总览 · 快速导航</div>
+        </div>
+      </div>
+      <div class="ia-node ia-node-depth-2">
+        <div class="ia-node-bullet"></div>
+        <div>
+          <div class="ia-node-label">三产布局</div>
+          <div class="ia-node-sub">一产种植 · 二产加工 · 三产服务</div>
+        </div>
+      </div>
+      <div class="ia-node ia-node-depth-3">
+        <div class="ia-node-bullet"></div>
+        <div>
+          <div class="ia-node-label">源头种植</div>
+          <div class="ia-node-sub">五大基地 · 种植分布</div>
+        </div>
+      </div>
+      <div class="ia-node ia-node-depth-3">
+        <div class="ia-node-bullet"></div>
+        <div>
+          <div class="ia-node-label">加工智造</div>
+          <div class="ia-node-sub">九蒸九晒 · 加工工艺</div>
+        </div>
+      </div>
+      <div class="ia-node ia-node-depth-3">
+        <div class="ia-node-bullet"></div>
+        <div>
+          <div class="ia-node-label">药旅服务</div>
+          <div class="ia-node-sub">文旅体验 · 康养服务</div>
+        </div>
+      </div>
+      <div class="ia-node ia-node-depth-2">
+        <div class="ia-node-bullet"></div>
+        <div>
+          <div class="ia-node-label">六味药材</div>
+          <div class="ia-node-sub">覆盆子 · 山茱萸 · 前胡 · 黄精 · 重楼 · 三叶青</div>
+        </div>
+      </div>
+      <div class="ia-node ia-node-depth-1">
+        <div class="ia-node-bullet"></div>
+        <div>
+          <div class="ia-node-label">互动答题</div>
+          <div class="ia-node-sub">知识学习 · 趣味挑战</div>
+        </div>
+      </div>
+      <div class="ia-node ia-node-depth-1">
+        <div class="ia-node-bullet"></div>
+        <div>
+          <div class="ia-node-label">体质食疗</div>
+          <div class="ia-node-sub">九种体质 · 个性化推荐</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 / INTERACTION -->
+  <section class="interaction" id="interaction">
+    <div class="section-label reveal">交互</div>
+    <h2 class="section-title reveal">交互流程</h2>
+    <div class="interaction-steps">
+      <div class="interaction-step reveal">
+        <div class="interaction-step-header">
+          <span class="interaction-step-num">Step 01</span>
+          <h3 class="interaction-step-title">产业探索</h3>
+        </div>
+        <div class="interaction-step-image">
+          <img src="../pdf_pages/page_21.png" alt="三产布局探索">
+        </div>
+        <p class="interaction-step-desc">用户进入首页后，通过可视化地图探索六味药材的产地分布与产业布局。点击不同区域查看详细信息，支持缩放、平移等交互操作。</p>
+      </div>
+      <div class="interaction-step reveal">
+        <div class="interaction-step-header">
+          <span class="interaction-step-num">Step 02</span>
+          <h3 class="interaction-step-title">知识学习</h3>
+        </div>
+        <div class="interaction-step-image">
+          <img src="../pdf_pages/page_17.png" alt="互动答题系统">
+        </div>
+        <p class="interaction-step-desc">通过互动答题形式学习药材知识。不同身份用户（企业代表、人大代表、普通游客）进入不同答题模式，题目内容有所区分。</p>
+      </div>
+      <div class="interaction-step reveal">
+        <div class="interaction-step-header">
+          <span class="interaction-step-num">Step 03</span>
+          <h3 class="interaction-step-title">体质测试</h3>
+        </div>
+        <div class="interaction-step-image">
+          <img src="../pdf_pages/page_14.png" alt="体质食疗推荐">
+        </div>
+        <p class="interaction-step-desc">完成体质测试后，系统根据九种体质类型推荐对应的食疗方案与药材产品，形成从知识到应用的完整体验闭环。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 / 界面 SYSTEM -->
+  <section class="uisystem" id="uisystem">
+    <div class="section-label reveal">设计系统</div>
+    <h2 class="section-title reveal">设计系统</h2>
+    <div class="uisystem-grid reveal">
+      <div class="uisystem-block">
+        <h4>Typography</h4>
+        <div class="uisystem-typography">
+          <div class="typo-sample">
+            <div class="typo-sample-label">Display — Playfair Display 700 · 36px</div>
+            <div class="typo-sample-value">淳六味</div>
+          </div>
+          <div class="typo-sample">
+            <div class="typo-sample-label">Heading — Noto Serif SC 600 · 24px</div>
+            <div class="typo-sample-value">中药材博物馆</div>
+          </div>
+          <div class="typo-sample">
+            <div class="typo-sample-label">Body — Noto Sans SC 400 · 15px</div>
+            <div class="typo-sample-value" style="font-size:15px;color:var(--mid-gray);font-weight:400;">道地药材 · 千年传承 · 数字化展示</div>
+          </div>
+          <div class="typo-sample">
+            <div class="typo-sample-label">Mono — JetBrains Mono 400 · 12px</div>
+            <div class="typo-sample-value" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--warm);">CHUN LIU WEI · 01 / 06</div>
+          </div>
+        </div>
+      </div>
+      <div class="uisystem-block">
+        <h4>Color</h4>
+        <div class="uisystem-color">
+          <div class="color-swatch" style="background:#0A0A0A"><span class="color-swatch-label">Black</span></div>
+          <div class="color-swatch" style="background:#C8B89A"><span class="color-swatch-label">Warm</span></div>
+          <div class="color-swatch" style="background:#8B6F4E"><span class="color-swatch-label">Accent</span></div>
+          <div class="color-swatch" style="background:#F5F5F3;border:1px solid #E5E5E5"><span class="color-swatch-label">Off-White</span></div>
+          <div class="color-swatch" style="background:#6B6B6B"><span class="color-swatch-label">Mid-Gray</span></div>
+          <div class="color-swatch" style="background:#9A9A9A"><span class="color-swatch-label">Light-Gray</span></div>
+        </div>
+      </div>
+      <div class="uisystem-block">
+        <h4>Components</h4>
+        <div class="uisystem-components">
+          <div class="ui-comp">
+            <span class="ui-comp-label">Navigation</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--light-gray);">Left Panel · 6 items</span>
+          </div>
+          <div class="ui-comp">
+            <span class="ui-comp-label">Card</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--light-gray);">Image + Title + Meta</span>
+          </div>
+          <div class="ui-comp">
+            <span class="ui-comp-label">Quiz Item</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--light-gray);">Question + 4 Options</span>
+          </div>
+          <div class="ui-comp">
+            <span class="ui-comp-label">Map Pin</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--light-gray);">Interactive Location</span>
+          </div>
+          <div class="ui-comp">
+            <span class="ui-comp-label">Player</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--light-gray);">Bottom Control Bar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 / FINAL EXPERIENCE -->
+  <section class="final" id="final">
+    <div class="section-label reveal">最终呈现</div>
+    <h2 class="section-title reveal">最终呈现</h2>
+    <div class="final-gallery reveal">
+      <div class="final-image wide">
+        <img src="../pdf_pages/page_21.png" alt="三产布局大屏展示">
+      </div>
+      <div class="final-caption">Fig. 01 — 产业布局可视化大屏 · 三产导航系统</div>
+      <div class="final-image">
+        <img src="../pdf_pages/page_22.png" alt="源头种植分布">
+      </div>
+      <div class="final-caption">Fig. 02 — 源头种植分布图 · 杭州市区域产业分布</div>
+      <div class="final-image">
+        <img src="../pdf_pages/page_17.png" alt="互动答题界面">
+      </div>
+      <div class="final-caption">Fig. 03 — 互动答题系统 · 企业代表模式</div>
+      <div class="final-image">
+        <img src="../pdf_pages/page_14.png" alt="体质食疗推荐">
+      </div>
+      <div class="final-caption">Fig. 04 — 体质食疗模块 · 个性化推荐界面</div>
+    </div>
+  </section>
+
+  <!-- 10 / OUTCOME -->
+  <section class="outcome" id="outcome">
+    <div class="section-label reveal">成果</div>
+    <h2 class="section-title reveal">成果与价值</h2>
+    <div class="outcome-stats reveal">
+      <div class="outcome-stat">
+        <div class="outcome-stat-num">6</div>
+        <div class="outcome-stat-label">味道地药材<br>完整展示</div>
+      </div>
+      <div class="outcome-stat">
+        <div class="outcome-stat-num">3</div>
+        <div class="outcome-stat-label">产业态态<br>一/二/三产</div>
+      </div>
+      <div class="outcome-stat">
+        <div class="outcome-stat-num">9</div>
+        <div class="outcome-stat-label">种体质类型<br>个性化推荐</div>
+      </div>
+      <div class="outcome-stat">
+        <div class="outcome-stat-num">5.5</div>
+        <div class="outcome-stat-label">万亩种植<br>可视化呈现</div>
+      </div>
+    </div>
+    <p class="outcome-text reveal">
+      项目成功将淳六味中药材的完整产业链通过数字展陈系统呈现，实现了从传统展板到交互式数字体验的升级。用户可以通过地图探索、互动答题、体质测试等多种方式深入了解六味药材，提升了文化传播效率与用户参与深度。
+    </p>
+  </section>
+
+  <!-- 11 / PROTOTYPE -->
+  <section class="prototype" id="prototype">
+    <div class="prototype-label reveal">体验入口</div>
+    <h2 class="prototype-title reveal">
+      进入这个数字展览<br>体验完整旅程
+    </h2>
+    <a href="https://www.figma.com/proto/your-prototype-link" class="prototype-btn reveal">
+      <span>体验交互原型</span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M4 12L12 4M12 4H6M12 4v6"/>
+      </svg>
+    </a>
+    <p class="prototype-note reveal">Figma 原型 · 390px Mobile</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 OUYANG JIN</p>
+    <p>01 / 05</p>
+  </footer>
+
+  <script>
+    // Header scroll state
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Intersection Observer for reveal animations
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

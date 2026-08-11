@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>欧阳槿 — Tianhe Bus Terminal Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #0A0A0A; --dark-gray: #2A2A2A; --mid-gray: #6B6B6B; --light-gray: #9A9A9A;
+      --border: #E5E5E5; --off-white: #F5F5F3; --white: #FFFFFF;
+      --warm: #C8B89A; --warm-dark: #8B6F4E;
+      --green: #7BA32C; --green-light: #F2E8C4;
+      --space-xs: 4px; --space-sm: 8px; --space-md: 16px; --space-lg: 24px;
+      --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px; --space-4xl: 96px;
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--off-white); color: var(--black); line-height: 1.6; overflow-x: hidden; }
+    .header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: var(--space-md) var(--space-lg); height: 56px; background: var(--off-white); border-bottom: 1px solid transparent; transition: border-color 0.3s; }
+    .header.scrolled { border-bottom: 1px solid var(--border); }
+    .back-btn { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--mid-gray); text-decoration: none; }
+    .back-btn:hover { color: var(--black); }
+    .back-btn svg { width: 16px; height: 16px; }
+    .project-nav { display: flex; align-items: center; gap: var(--space-md); }
+    .project-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mid-gray); letter-spacing: 0.1em; }
+    .project-nav-link { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); text-decoration: none; }
+    .project-nav-link:hover { color: var(--black); }
+    .cover { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--space-lg) var(--space-3xl); position: relative; background: var(--black); color: var(--white); overflow: hidden; }
+    .cover-bg { position: absolute; inset: 0; z-index: 0; }
+    .cover-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: grayscale(30%); }
+    .cover-content { position: relative; z-index: 1; }
+    .cover-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: var(--space-md); }
+    .cover-label::before { content: ''; width: 32px; height: 1px; background: var(--green); }
+    .cover-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 11vw, 52px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.0; margin-bottom: var(--space-lg); }
+    .cover-subtitle { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 320px; margin-bottom: var(--space-2xl); }
+    .cover-meta { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); padding-top: var(--space-xl); border-top: 1px solid rgba(255,255,255,0.15); }
+    .cover-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .cover-meta-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .cover-meta-value { font-size: 13px; color: var(--white); }
+    .cover-tags { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
+    .cover-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); border: 1px solid var(--green); padding: 6px 10px; }
+    .cover-scroll { position: absolute; bottom: var(--space-lg); right: var(--space-lg); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); animation: scrollPulse 2s ease-in-out infinite; }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.4; transform: translateY(0); } 50% { opacity: 1; transform: translateY(4px); } }
+    section { padding: var(--space-3xl) var(--space-lg); }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: var(--space-md); display: flex; align-items: center; gap: var(--space-md); }
+    .section-label::before { content: ''; width: 24px; height: 1px; background: var(--green); }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 9vw, 42px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--space-xl); }
+    .overview-lead { font-family: 'Noto Serif SC', serif; font-size: 17px; line-height: 1.8; color: var(--mid-gray); margin-bottom: var(--space-xl); padding-left: var(--space-lg); border-left: 2px solid var(--green); }
+    .overview-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); margin-top: var(--space-xl); }
+    .overview-item { padding-bottom: var(--space-lg); border-bottom: 1px solid var(--border); }
+    .overview-item:last-child { border-bottom: none; }
+    .overview-item-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: var(--space-xs); }
+    .overview-item-value { font-size: 15px; line-height: 1.6; }
+
+    /* CONTEXT */
+    .context { border-top: 1px solid var(--border); }
+    .context-image { width: 100%; aspect-ratio: 16/9; overflow: hidden; margin-bottom: var(--space-xl); background: var(--dark-gray); border: 1px solid var(--border); }
+    .context-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .context-points { display: flex; flex-direction: column; gap: var(--space-lg); }
+    .context-point { display: grid; grid-template-columns: 60px 1fr; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .context-point-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); letter-spacing: 0.1em; padding-top: 4px; }
+    .context-point h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .context-point p { font-size: 14px; color: var(--mid-gray); line-height: 1.6; }
+
+    /* USER FLOW */
+    .user-flow { border-top: 1px solid var(--border); }
+    .flow-steps { margin-top: var(--space-xl); display: flex; flex-direction: column; gap: 0; }
+    .flow-step { display: grid; grid-template-columns: 80px 1fr; gap: var(--space-md); padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .flow-step:first-child { border-top: 1px solid var(--border); }
+    .flow-step-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); letter-spacing: 0.1em; }
+    .flow-step h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .flow-step p { font-size: 14px; color: var(--mid-gray); line-height: 1.6; }
+
+    /* IA */
+    .ia { border-top: 1px solid var(--border); }
+    .ia-tree { margin-top: var(--space-xl); display: flex; flex-direction: column; gap: 0; }
+    .ia-node { display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); }
+    .ia-node-depth-1 { padding-left: var(--space-md); }
+    .ia-node-depth-2 { padding-left: var(--space-xl); }
+    .ia-node-depth-3 { padding-left: var(--space-2xl); }
+    .ia-node-bullet { width: 6px; height: 6px; background: var(--black); flex-shrink: 0; }
+    .ia-node-depth-2 .ia-node-bullet { background: var(--green); }
+    .ia-node-depth-3 .ia-node-bullet { background: var(--light-gray); }
+    .ia-node-label { font-size: 14px; font-weight: 500; }
+    .ia-node-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+
+    /* ROUTE SYSTEM */
+    .route { border-top: 1px solid var(--border); }
+    .route-map { width: 100%; aspect-ratio: 16/9; overflow: hidden; margin-bottom: var(--space-xl); background: var(--dark-gray); border: 1px solid var(--border); }
+    .route-map img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .route-nodes { display: flex; flex-direction: column; gap: 0; }
+    .route-node { display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); }
+    .route-node:first-child { border-top: 1px solid var(--border); }
+    .route-node-dot { width: 12px; height: 12px; background: var(--green); flex-shrink: 0; }
+    .route-node-line { flex: 1; height: 2px; background: var(--border); margin: 0 var(--space-md); }
+    .route-node-label { font-size: 14px; font-weight: 500; }
+    .route-node-desc { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+
+    /* INFO VIS */
+    .info-vis { border-top: 1px solid var(--border); }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: var(--space-xl); }
+    .info-item { background: var(--off-white); padding: var(--space-lg); }
+    .info-item-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: var(--space-sm); }
+    .info-item-value { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--green); line-height: 1; }
+    .info-item-desc { font-size: 13px; color: var(--mid-gray); margin-top: var(--space-sm); }
+
+    /* 界面 */
+    .ui-section { border-top: 1px solid var(--border); }
+    .ui-showcase { margin-top: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-lg); }
+    .ui-screen { aspect-ratio: 9/16; max-height: 560px; overflow: hidden; background: var(--dark-gray); border: 1px solid var(--border); position: relative; }
+    .ui-screen img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ui-screen-label { position: absolute; bottom: var(--space-md); left: var(--space-md); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: rgba(10,10,10,0.8); padding: 6px 10px; }
+
+    /* FINAL */
+    .final { border-top: 1px solid var(--border); }
+    .final-image { width: 100%; aspect-ratio: 16/9; overflow: hidden; margin-bottom: var(--space-xl); background: var(--dark-gray); border: 1px solid var(--border); }
+    .final-image img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(20%); }
+    .final-quote { font-family: 'Noto Serif SC', serif; font-size: 18px; line-height: 1.7; color: var(--mid-gray); padding-left: var(--space-lg); border-left: 2px solid var(--green); margin-bottom: var(--space-xl); }
+    .final-values { display: flex; flex-direction: column; gap: var(--space-md); }
+    .final-value { display: grid; grid-template-columns: 60px 1fr; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .final-value-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); letter-spacing: 0.1em; padding-top: 4px; }
+    .final-value-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .final-value-content p { font-size: 14px; color: var(--mid-gray); line-height: 1.6; }
+
+    /* OUTCOME */
+    .outcome { border-top: 1px solid var(--border); }
+    .outcome-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: var(--space-xl); }
+    .outcome-stat { background: var(--off-white); padding: var(--space-lg); }
+    .outcome-stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: var(--space-sm); }
+    .outcome-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); line-height: 1.4; }
+    .outcome-text { margin-top: var(--space-2xl); font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 1.8; color: var(--mid-gray); padding-left: var(--space-lg); border-left: 2px solid var(--green); }
+
+    /* CTA */
+    .cta { border-top: 1px solid var(--border); text-align: center; padding: var(--space-4xl) var(--space-lg); }
+    .cta-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--light-gray); margin-bottom: var(--space-lg); }
+    .cta-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 8vw, 36px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: var(--space-xl); max-width: 320px; margin-left: auto; margin-right: auto; }
+    .cta-btn { display: inline-flex; align-items: center; gap: var(--space-md); padding: 16px 32px; background: var(--green); color: var(--white); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--green); transition: all 0.3s var(--easing); }
+    .cta-btn:hover { background: transparent; color: var(--green); }
+    .cta-btn svg { width: 16px; height: 16px; transition: transform 0.3s var(--easing); }
+    .cta-btn:hover svg { transform: translate(4px, -4px); }
+    .cta-note { margin-top: var(--space-lg); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+
+    /* FOOTER */
+    .footer { padding: var(--space-lg); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer p { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--light-gray); letter-spacing: 0.05em; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s var(--easing), transform 0.7s var(--easing); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } .reveal { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14 8H2M2 8l6-6M2 8l6 6"/></svg>
+      返回
+    </a>
+    <div class="project-nav">
+      <a href="case-03.html" class="project-nav-link">← 03</a>
+      <span class="project-num">04 / 05</span>
+      <a href="case-05.html" class="project-nav-link">05 →</a>
+    </div>
+  </header>
+
+  <!-- 01 COVER -->
+  <section class="cover" id="cover">
+    <div class="cover-bg"><img src="../pdf_pages/page_10.png" alt="Tianhe Bus Terminal"></div>
+    <div class="cover-content">
+      <div class="cover-label">服务设计 / 信息设计 / UX</div>
+      <h1 class="cover-title">TIANHE<br>BUS<br>TERMINAL</h1>
+      <p class="cover-subtitle">城市公交枢纽信息服务系统优化设计</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><span class="cover-meta-label">焦点</span><span class="cover-meta-value">Public Transport · Information Design</span></div>
+        <div class="cover-meta-item"><span class="cover-meta-label">方法</span><span class="cover-meta-value">Service Design · 用户旅程</span></div>
+        <div class="cover-meta-item"><span class="cover-meta-label">角色</span><span class="cover-meta-value">Service Designer</span></div>
+        <div class="cover-meta-item"><span class="cover-meta-label">年份</span><span class="cover-meta-value">2024</span></div>
+      </div>
+      <div class="cover-tags">
+        <span class="cover-tag">服务设计</span>
+        <span class="cover-tag">信息设计</span>
+        <span class="cover-tag">UX</span>
+        <span class="cover-tag">导视系统</span>
+      </div>
+    </div>
+    <div class="cover-scroll">Scroll</div>
+  </section>
+
+  <!-- 02 CONTEXT -->
+  <section class="context" id="context">
+    <div class="section-label reveal">背景</div>
+    <h2 class="section-title reveal">场景与背景</h2>
+    <div class="context-image reveal"><img src="../pdf_pages/page_10.png" alt="天河客运站"></div>
+    <div class="context-points reveal">
+      <div class="context-point"><span class="context-point-num">01</span><div><h4>交通枢纽复杂性</h4><p>天河客运站集长途客运、城郊公交、地铁公交于一体，日均客流量大，信息层级复杂，乘客容易迷失方向。</p></div></div>
+      <div class="context-point"><span class="context-point-num">02</span><div><h4>老年乘客比例高</h4><p>车站服务对象中老年人占比高，对信息获取能力、行动便利性有特殊需求，现有系统缺乏适老化设计。</p></div></div>
+      <div class="context-point"><span class="context-point-num">03</span><div><h4>信息碎片化</h4><p>线路信息分散在站牌、电子屏、人工咨询等多个触点，缺乏统一的信息架构和导航体验。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 03 PROBLEM -->
+  <section class="problem" id="problem">
+    <div class="section-label reveal">问题</div>
+    <h2 class="section-title reveal">核心问题</h2>
+    <div class="problem-cards reveal">
+      <div class="problem-card"><span class="problem-card-num">01</span><div><h4>信息获取困难</h4><p>"信息看不清""不知道在哪上车"——站牌字体小、信息密集、缺乏层次，老年乘客难以快速定位所需信息。</p></div></div>
+      <div class="problem-card"><span class="problem-card-num">02</span><div><h4>导航路径不清晰</h4><p>从进站到上车缺乏连续导航，乘客在换乘、找站台、等车等环节容易产生焦虑和方向迷失。</p></div></div>
+      <div class="problem-card"><span class="problem-card-num">03</span><div><h4>实时信息缺失</h4><p>发车时间、车辆到站等实时信息更新滞后，乘客无法提前规划，造成无效等待。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 04 USER FLOW -->
+  <section class="user-flow" id="user-flow">
+    <div class="section-label reveal">用户流程</div>
+    <h2 class="section-title reveal">用户旅程</h2>
+    <div class="flow-steps reveal">
+      <div class="flow-step"><span class="flow-step-num">01</span><div><h4>查看信息</h4><p>查看站牌、询问工作人员、寻找电子显示屏</p></div></div>
+      <div class="flow-step"><span class="flow-step-num">02</span><div><h4>确认路线</h4><p>确认线路、站台位置、发车时间</p></div></div>
+      <div class="flow-step"><span class="flow-step-num">03</span><div><h4>等待车辆</h4><p>在指定站台等候，关注到站信息</p></div></div>
+      <div class="flow-step"><span class="flow-step-num">04</span><div><h4>乘车出行</h4><p>上车、找座位、关注到站提醒</p></div></div>
+    </div>
+  </section>
+
+  <!-- 05 INFORMATION ARCHITECTURE -->
+  <section class="ia" id="ia">
+    <div class="section-label reveal">信息架构</div>
+    <h2 class="section-title reveal">信息架构</h2>
+    <div class="ia-tree reveal">
+      <div class="ia-node ia-node-depth-1"><div class="ia-node-bullet"></div><div><div class="ia-node-label">首页 / 总览</div><div class="ia-node-sub">实时信息 · 快速导航</div></div></div>
+      <div class="ia-node ia-node-depth-2"><div class="ia-node-bullet"></div><div><div class="ia-node-label">线路查询</div><div class="ia-node-sub">30路 · 136路 · 317路 · K1路</div></div></div>
+      <div class="ia-node ia-node-depth-2"><div class="ia-node-bullet"></div><div><div class="ia-node-label">站台导航</div><div class="ia-node-sub">按线路定位站台 · 室内导航</div></div></div>
+      <div class="ia-node ia-node-depth-2"><div class="ia-node-bullet"></div><div><div class="ia-node-label">实时到站</div><div class="ia-node-sub">车辆位置 · 预计到站时间</div></div></div>
+      <div class="ia-node ia-node-depth-1"><div class="ia-node-bullet"></div><div><div class="ia-node-label">辅助服务</div><div class="ia-node-sub">人工咨询 · 无障碍通道 · 紧急帮助</div></div></div>
+    </div>
+  </section>
+
+  <!-- 06 ROUTE SYSTEM -->
+  <section class="route" id="route">
+    <div class="section-label reveal">线路系统</div>
+    <h2 class="section-title reveal">线路系统</h2>
+    <div class="route-map reveal"><img src="../pdf_pages/page_10.png" alt="线路系统图"></div>
+    <div class="route-nodes reveal">
+      <div class="route-node"><div class="route-node-dot"></div><div class="route-node-line"></div><span class="route-node-label">进站口</span><span class="route-node-desc">入口 · 安检</span></div>
+      <div class="route-node"><div class="route-node-dot"></div><div class="route-node-line"></div><span class="route-node-label">信息查询区</span><span class="route-node-desc">电子屏 · 自助终端</span></div>
+      <div class="route-node"><div class="route-node-dot"></div><div class="route-node-line"></div><span class="route-node-label">候车大厅</span><span class="route-node-desc">休息 · 商业服务</span></div>
+      <div class="route-node"><div class="route-node-dot"></div><div class="route-node-line"></div><span class="route-node-label">站台区域</span><span class="route-node-desc">30路 · 136路 · 317路 · K1路</span></div>
+      <div class="route-node"><div class="route-node-dot"></div><span class="route-node-label">发车</span><span class="route-node-desc">出行</span></div>
+    </div>
+  </section>
+
+  <!-- 07 INFORMATION VISUALIZATION -->
+  <section class="info-vis" id="info-vis">
+    <div class="section-label reveal">信息可视化</div>
+    <h2 class="section-title reveal">信息可视化</h2>
+    <div class="info-grid reveal">
+      <div class="info-item"><div class="info-item-label">日均客流量</div><div class="info-item-value">30,000+</div><div class="info-item-desc">人次</div></div>
+      <div class="info-item"><div class="info-item-label">线路数量</div><div class="info-item-value">12</div><div class="info-item-desc">条公交线路</div></div>
+      <div class="info-item"><div class="info-item-label">老年乘客占比</div><div class="info-item-value">35%</div><div class="info-item-desc">65岁以上</div></div>
+      <div class="info-item"><div class="info-item-label">信息触点</div><div class="info-item-value">8</div><div class="info-item-desc">主要导航节点</div></div>
+    </div>
+  </section>
+
+  <!-- 08 界面 / SIGNAGE -->
+  <section class="ui-section" id="ui">
+    <div class="section-label reveal">界面 / 导视</div>
+    <h2 class="section-title reveal">界面与导视</h2>
+    <div class="ui-showcase reveal">
+      <div class="ui-screen"><img src="../pdf_pages/page_10.png" alt="界面设计"><span class="ui-screen-label">信息架构 · 界面设计</span></div>
+      <div class="ui-screen"><img src="../pdf_pages/page_11.png" alt="场景故事"><span class="ui-screen-label">场景故事 · 用户旅程</span></div>
+    </div>
+  </section>
+
+  <!-- 09 REAL-WORLD APPLICATION -->
+  <section class="final" id="final">
+    <div class="section-label reveal">应用</div>
+    <h2 class="section-title reveal">实际应用</h2>
+    <div class="final-image reveal"><img src="../pdf_pages/page_10.png" alt="最终设计方案"></div>
+    <p class="final-quote reveal">这是一套完整的公共交通信息优化方案，从线下导视到线上查询，从信息架构到交互流程，系统性解决乘客出行中的信息获取难题，特别关注老年乘客的使用体验。</p>
+    <div class="final-values reveal">
+      <div class="final-value"><span class="final-value-num">01</span><div class="final-value-content"><h4>Service Design</h4><p>从乘客视角出发，重新梳理整个出行服务链路中的信息触点。</p></div></div>
+      <div class="final-value"><span class="final-value-num">02</span><div class="final-value-content"><h4>Information Design</h4><p>将复杂的车站信息转化为清晰、易读、易操作的视觉语言。</p></div></div>
+      <div class="final-value"><span class="final-value-num">03</span><div class="final-value-content"><h4>Inclusive Design</h4><p>特别关注老年乘客需求，降低信息获取门槛，提升出行安全感。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 10 OUTCOME -->
+  <section class="outcome" id="outcome">
+    <div class="section-label reveal">成果</div>
+    <h2 class="section-title reveal">成果与价值</h2>
+    <div class="outcome-stats reveal">
+      <div class="outcome-stat"><div class="outcome-stat-num">4</div><div class="outcome-stat-label">阶段旅程<br>查询→候车→乘车→到达</div></div>
+      <div class="outcome-stat"><div class="outcome-stat-num">8</div><div class="outcome-stat-label">信息触点<br>完整导航覆盖</div></div>
+      <div class="outcome-stat"><div class="outcome-stat-num">35%</div><div class="outcome-stat-label">老年用户<br>重点适老化设计</div></div>
+      <div class="outcome-stat"><div class="outcome-stat-num">12</div><div class="outcome-stat-label">线路整合<br>统一信息平台</div></div>
+    </div>
+    <p class="outcome-text reveal">通过系统性的服务设计和信息架构优化，将原本碎片化的车站信息整合为统一、清晰、易用的导航体验。特别针对老年用户群体，简化信息层级，增强视觉对比，提供人工辅助通道，实现真正意义上的包容性设计。</p>
+  </section>
+
+  <!-- 11 CTA -->
+  <section class="cta" id="cta">
+    <div class="cta-label reveal">原型</div>
+    <h2 class="cta-title reveal">体验这个信息优化方案</h2>
+    <a href="https://www.figma.com/proto/your-prototype-link" class="cta-btn reveal"><span>体验交互原型</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></a>
+    <p class="cta-note reveal">Interactive 原型 · Figma</p>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 OUYANG JIN</p>
+    <p>04 / 05</p>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => { observer.observe(el); });
+  </script>
+</body>
+</html>

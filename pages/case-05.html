@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>欧阳槿 — Traditional Culture × Digital Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #0A0A0A; --dark-gray: #2A2A2A; --mid-gray: #6B6B6B; --light-gray: #9A9A9A;
+      --border: #E5E5E5; --off-white: #F5F5F3; --white: #FFFFFF;
+      --warm: #C8B89A; --warm-dark: #8B6F4E; --brown: #A67C52; --brown-light: #F0E6D3;
+      --space-xs: 4px; --space-sm: 8px; --space-md: 16px; --space-lg: 24px;
+      --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px; --space-4xl: 96px;
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--off-white); color: var(--black); line-height: 1.6; overflow-x: hidden; }
+    .header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: var(--space-md) var(--space-lg); height: 56px; background: var(--off-white); border-bottom: 1px solid transparent; transition: border-color 0.3s; }
+    .header.scrolled { border-bottom: 1px solid var(--border); }
+    .back-btn { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--mid-gray); text-decoration: none; }
+    .back-btn:hover { color: var(--black); }
+    .back-btn svg { width: 16px; height: 16px; }
+    .project-nav { display: flex; align-items: center; gap: var(--space-md); }
+    .project-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mid-gray); letter-spacing: 0.1em; }
+    .project-nav-link { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); text-decoration: none; }
+    .project-nav-link:hover { color: var(--black); }
+    .cover { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--space-lg) var(--space-3xl); position: relative; background: var(--brown); color: var(--white); overflow: hidden; }
+    .cover-bg { position: absolute; inset: 0; z-index: 0; }
+    .cover-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: grayscale(30%); }
+    .cover-content { position: relative; z-index: 1; }
+    .cover-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--brown-light); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: var(--space-md); }
+    .cover-label::before { content: ''; width: 32px; height: 1px; background: var(--brown-light); }
+    .cover-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 11vw, 52px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.0; margin-bottom: var(--space-lg); }
+    .cover-subtitle { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 320px; margin-bottom: var(--space-2xl); }
+    .cover-meta { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); padding-top: var(--space-xl); border-top: 1px solid rgba(255,255,255,0.2); }
+    .cover-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .cover-meta-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .cover-meta-value { font-size: 13px; color: var(--white); }
+    .cover-tags { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
+    .cover-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brown-light); border: 1px solid var(--brown-light); padding: 6px 10px; }
+    .cover-scroll { position: absolute; bottom: var(--space-lg); right: var(--space-lg); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); animation: scrollPulse 2s ease-in-out infinite; }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.4; transform: translateY(0); } 50% { opacity: 1; transform: translateY(4px); } }
+    section { padding: var(--space-3xl) var(--space-lg); }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brown); margin-bottom: var(--space-md); display: flex; align-items: center; gap: var(--space-md); }
+    .section-label::before { content: ''; width: 24px; height: 1px; background: var(--brown); }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 9vw, 42px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--space-xl); }
+    .overview-lead { font-family: 'Noto Serif SC', serif; font-size: 17px; line-height: 1.8; color: var(--mid-gray); margin-bottom: var(--space-xl); padding-left: var(--space-lg); border-left: 2px solid var(--brown); }
+    .overview-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); margin-top: var(--space-xl); }
+    .overview-item { padding-bottom: var(--space-lg); border-bottom: 1px solid var(--border); }
+    .overview-item:last-child { border-bottom: none; }
+    .overview-item-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: var(--space-xs); }
+    .overview-item-value { font-size: 15px; line-height: 1.6; }
+
+    /* CULTURAL CONTEXT */
+    .cultural-context { border-top: 1px solid var(--border); }
+    .cultural-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); margin-top: var(--space-xl); }
+    .cultural-item { display: grid; grid-template-columns: 80px 1fr; gap: var(--space-md); padding: var(--space-lg) 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .cultural-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--brown); letter-spacing: 0.1em; padding-top: 4px; }
+    .cultural-item h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .cultural-item p { font-size: 14px; color: var(--mid-gray); line-height: 1.6; }
+
+    /* CHALLENGE */
+    .challenge { border-top: 1px solid var(--border); }
+    .challenge-points { display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-xl); }
+    .challenge-point { padding: var(--space-lg); background: var(--white); border: 1px solid var(--border); }
+    .challenge-point-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--brown); margin-bottom: var(--space-sm); }
+    .challenge-point h4 { font-size: 16px; font-weight: 600; margin-bottom: var(--space-sm); }
+    .challenge-point p { font-size: 14px; color: var(--mid-gray); line-height: 1.6; }
+
+    /* GUQIN SECTION */
+    .guqin { border-top: 1px solid var(--border); background: var(--brown-light); }
+    .guqin-image { width: 100%; aspect-ratio: 16/9; overflow: hidden; margin-bottom: var(--space-xl); background: var(--dark-gray); border: 1px solid var(--border); }
+    .guqin-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .guqin-features { display: flex; flex-direction: column; gap: var(--space-md); }
+    .guqin-feature { display: grid; grid-template-columns: 60px 1fr; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid rgba(139,111,78,0.2); align-items: start; }
+    .guqin-feature-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--brown); letter-spacing: 0.1em; padding-top: 4px; }
+    .guqin-feature h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .guqin-feature p { font-size: 14px; color: var(--mid-gray); line-height: 1.6; }
+
+    /* OPERA SECTION */
+    .opera { border-top: 1px solid var(--border); }
+    .opera-image { width: 100%; aspect-ratio: 16/9; overflow: hidden; margin-bottom: var(--space-xl); background: var(--dark-gray); border: 1px solid var(--border); }
+    .opera-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .opera-features { display: flex; flex-direction: column; gap: var(--space-md); }
+    .opera-feature { display: grid; grid-template-columns: 60px 1fr; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .opera-feature-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--brown); letter-spacing: 0.1em; padding-top: 4px; }
+    .opera-feature h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .opera-feature p { font-size: 14px; color: var(--mid-gray); line-height: 1.6; }
+
+    /* CONTENT SYSTEM */
+    .content-system { border-top: 1px solid var(--border); }
+    .content-tree { margin-top: var(--space-xl); display: flex; flex-direction: column; gap: 0; }
+    .content-node { display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); }
+    .content-node-depth-1 { padding-left: var(--space-md); }
+    .content-node-depth-2 { padding-left: var(--space-xl); }
+    .content-node-depth-3 { padding-left: var(--space-2xl); }
+    .content-node-bullet { width: 6px; height: 6px; background: var(--brown); flex-shrink: 0; }
+    .content-node-depth-2 .content-node-bullet { background: var(--warm); }
+    .content-node-depth-3 .content-node-bullet { background: var(--light-gray); }
+    .content-node-label { font-size: 14px; font-weight: 500; }
+    .content-node-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+
+    /* FINAL */
+    .final { border-top: 1px solid var(--border); }
+    .final-image { width: 100%; aspect-ratio: 16/9; overflow: hidden; margin-bottom: var(--space-xl); background: var(--dark-gray); border: 1px solid var(--border); }
+    .final-image img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(20%); }
+    .final-quote { font-family: 'Noto Serif SC', serif; font-size: 18px; line-height: 1.7; color: var(--mid-gray); padding-left: var(--space-lg); border-left: 2px solid var(--brown); margin-bottom: var(--space-xl); }
+    .final-values { display: flex; flex-direction: column; gap: var(--space-md); }
+    .final-value { display: grid; grid-template-columns: 60px 1fr; gap: var(--space-md); padding: var(--space-md) 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .final-value-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--brown); letter-spacing: 0.1em; padding-top: 4px; }
+    .final-value-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .final-value-content p { font-size: 14px; color: var(--mid-gray); line-height: 1.6; }
+
+    /* REFLECTION */
+    .reflection { border-top: 1px solid var(--border); }
+    .reflection-text { font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 1.8; color: var(--mid-gray); margin-top: var(--space-xl); padding-left: var(--space-lg); border-left: 2px solid var(--brown); }
+
+    /* OUTCOME */
+    .outcome { border-top: 1px solid var(--border); }
+    .outcome-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: var(--space-xl); }
+    .outcome-stat { background: var(--off-white); padding: var(--space-lg); }
+    .outcome-stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--brown); line-height: 1; margin-bottom: var(--space-sm); }
+    .outcome-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); line-height: 1.4; }
+
+    /* CTA */
+    .cta { border-top: 1px solid var(--border); text-align: center; padding: var(--space-4xl) var(--space-lg); }
+    .cta-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--light-gray); margin-bottom: var(--space-lg); }
+    .cta-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 8vw, 36px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: var(--space-xl); max-width: 320px; margin-left: auto; margin-right: auto; }
+    .cta-btn { display: inline-flex; align-items: center; gap: var(--space-md); padding: 16px 32px; background: var(--brown); color: var(--white); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--brown); transition: all 0.3s var(--easing); }
+    .cta-btn:hover { background: transparent; color: var(--brown); }
+    .cta-btn svg { width: 16px; height: 16px; transition: transform 0.3s var(--easing); }
+    .cta-btn:hover svg { transform: translate(4px, -4px); }
+    .cta-note { margin-top: var(--space-lg); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+
+    /* FOOTER */
+    .footer { padding: var(--space-lg); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer p { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--light-gray); letter-spacing: 0.05em; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s var(--easing), transform 0.7s var(--easing); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } .reveal { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14 8H2M2 8l6-6M2 8l6 6"/></svg>
+      返回
+    </a>
+    <div class="project-nav">
+      <a href="case-04.html" class="project-nav-link">← 04</a>
+      <span class="project-num">05 / 05</span>
+    </div>
+  </header>
+
+  <!-- 01 COVER -->
+  <section class="cover" id="cover">
+    <div class="cover-bg"><img src="../pdf_pages/page_12.png" alt="Traditional Culture Digital"></div>
+    <div class="cover-content">
+      <div class="cover-label">Digital Culture / UX / 界面</div>
+      <h1 class="cover-title">TRADITIONAL<br>CULTURE ×<br>DIGITAL</h1>
+      <p class="cover-subtitle">非遗文化的数字化体验设计 — 古琴与戏曲</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><span class="cover-meta-label">焦点</span><span class="cover-meta-value">Digital Culture · 界面/UX</span></div>
+        <div class="cover-meta-item"><span class="cover-meta-label">方法</span><span class="cover-meta-value">Traditional × Digital Integration</span></div>
+        <div class="cover-meta-item"><span class="cover-meta-label">角色</span><span class="cover-meta-value">Digital Experience Designer</span></div>
+        <div class="cover-meta-item"><span class="cover-meta-label">年份</span><span class="cover-meta-value">2024</span></div>
+      </div>
+      <div class="cover-tags">
+        <span class="cover-tag">数字文化</span>
+        <span class="cover-tag">用户界面</span>
+        <span class="cover-tag">UX</span>
+        <span class="cover-tag">界面</span>
+      </div>
+    </div>
+    <div class="cover-scroll">Scroll</div>
+  </section>
+
+  <!-- 02 CULTURAL CONTEXT -->
+  <section class="cultural-context" id="cultural-context">
+    <div class="section-label reveal">文化语境</div>
+    <h2 class="section-title reveal">文化语境</h2>
+    <div class="cultural-grid reveal">
+      <div class="cultural-item"><span class="cultural-num">01</span><div><h4>古琴 — 文人雅器</h4><p>古琴是中国最古老的弹拨乐器之一，承载着千年的文人精神。琴谱以减字谱记录，传播门槛高，年轻一代接触机会少。</p></div></div>
+      <div class="cultural-item"><span class="cultural-num">02</span><div><h4>戏曲 — 国粹艺术</h4><p>京剧、越剧等戏曲形式是中国传统文化的重要载体，但传统传播方式难以吸引年轻观众，存在传承断层风险。</p></div></div>
+      <div class="cultural-item"><span class="cultural-num">03</span><div><h4>围棋 — 智力博弈</h4><p>围棋是中国传统智慧的代表，拥有庞大的学习者和爱好者群体，数字化学习需求旺盛。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 03 DESIGN CHALLENGE -->
+  <section class="challenge" id="challenge">
+    <div class="section-label reveal">设计挑战</div>
+    <h2 class="section-title reveal">设计挑战</h2>
+    <div class="challenge-points reveal">
+      <div class="challenge-point"><div class="challenge-point-label">Challenge 01</div><h4>文化转译</h4><p>如何将传统美学语言转译为现代数字设计语言，既保留文化韵味，又确保交互效率？</p></div>
+      <div class="challenge-point"><div class="challenge-point-label">Challenge 02</div><h4>双风格策略</h4><p>古琴与戏曲气质不同——古琴偏静谧内敛，戏曲偏热烈张扬。如何建立统一又差异化的视觉系统？</p></div>
+      <div class="challenge-point"><div class="challenge-point-label">Challenge 03</div><h4>社区构建</h4><p>不仅提供内容消费，更需构建互动社区，让传统文化在社交传播中持续生长。</p></div>
+    </div>
+  </section>
+
+  <!-- 04 GUQIN DIGITAL EXPERIENCE -->
+  <section class="guqin" id="guqin">
+    <div class="section-label reveal">古琴数字体验</div>
+    <h2 class="section-title reveal">古琴数字体验</h2>
+    <div class="guqin-image reveal"><img src="../pdf_pages/page_12.png" alt="古琴琴谱查询系统"></div>
+    <div class="guqin-features reveal">
+      <div class="guqin-feature"><span class="guqin-feature-num">01</span><div><h4>水墨美学系统</h4><p>以米色、棕色为主调，融入水墨山水、竹林元素，营造古典雅致的视觉氛围。</p></div></div>
+      <div class="guqin-feature"><span class="guqin-feature-num">02</span><div><h4>琴谱查询系统</h4><p>支持按曲目、按指法两种查询方式，减字谱与简谱对照，降低学习门槛。</p></div></div>
+      <div class="guqin-feature"><span class="guqin-feature-num">03</span><div><h4>收藏与播放</h4><p>曲目收藏、在线播放、视频演示，形成完整的学习闭环。</p></div></div>
+      <div class="guqin-feature"><span class="guqin-feature-num">04</span><div><h4>社区互动</h4><p>琴友社区，分享演奏心得，交流学琴经验。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 05 GUQIN INTERFACE -->
+  <section class="ui-section" id="guqin-ui">
+    <div class="section-label reveal">界面</div>
+    <h2 class="section-title reveal">界面设计</h2>
+    <div class="ui-showcase reveal">
+      <div class="ui-screen"><img src="../pdf_pages/page_12.png" alt="古琴首页"><span class="ui-screen-label">古琴首页 · 琴谱查询</span></div>
+      <div class="ui-screen"><img src="../pdf_pages/page_13.png" alt="戏曲界面"><span class="ui-screen-label">戏曲点播 · 剧目分类</span></div>
+    </div>
+  </section>
+
+  <!-- 06 OPERA DIGITAL EXPERIENCE -->
+  <section class="opera" id="opera">
+    <div class="section-label reveal">戏曲数字体验</div>
+    <h2 class="section-title reveal">戏曲数字体验</h2>
+    <div class="opera-image reveal"><img src="../pdf_pages/page_18.png" alt="戏曲点播平台"></div>
+    <div class="opera-features reveal">
+      <div class="opera-feature"><span class="opera-feature-num">01</span><div><h4>现代简洁风格</h4><p>与古琴模块的古典风格形成对比，采用蓝白主色调，现代简洁的视觉语言。</p></div></div>
+      <div class="opera-feature"><span class="guqin-feature-num">02</span><div><h4>剧目分类与点播</h4><p>按剧种、名家、热门等维度分类，支持在线点播播放。</p></div></div>
+      <div class="opera-feature"><span class="opera-feature-num">03</span><div><h4>棋道互动</h4><p>围棋棋谱库、对局记录、互动社区，构建传统文化学习闭环。</p></div></div>
+      <div class="opera-feature"><span class="opera-feature-num">04</span><div><h4>社区分享</h4><p>用户上传棋谱、交流心得、参与讨论，形成活跃的社区生态。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 07 OPERA INTERFACE -->
+  <section class="ui-section" id="opera-ui">
+    <div class="section-label reveal">界面</div>
+    <h2 class="section-title reveal">界面设计</h2>
+    <div class="ui-showcase reveal">
+      <div class="ui-screen"><img src="../pdf_pages/page_19.png" alt="棋道互动"><span class="ui-screen-label">棋道互动 · 对局社区</span></div>
+      <div class="ui-screen"><img src="../pdf_pages/page_20.png" alt="棋谱库"><span class="ui-screen-label">棋谱库 · 分类浏览</span></div>
+    </div>
+  </section>
+
+  <!-- 08 CONTENT SYSTEM -->
+  <section class="content-system" id="content-system">
+    <div class="section-label reveal">内容系统</div>
+    <h2 class="section-title reveal">内容系统</h2>
+    <div class="content-tree reveal">
+      <div class="content-node content-node-depth-1"><div class="content-node-bullet"></div><div><div class="content-node-label">古琴模块</div><div class="content-node-sub">琴谱查询 · 曲目收藏 · 指法学习 · 社区</div></div></div>
+      <div class="content-node content-node-depth-2"><div class="content-node-bullet"></div><div><div class="content-node-label">按曲目浏览</div></div></div>
+      <div class="content-node content-node-depth-2"><div class="content-node-bullet"></div><div><div class="content-node-label">按指法浏览</div></div></div>
+      <div class="content-node content-node-depth-2"><div class="content-node-bullet"></div><div><div class="content-node-label">我的收藏</div></div></div>
+      <div class="content-node content-node-depth-1"><div class="content-node-bullet"></div><div><div class="content-node-label">戏曲模块</div><div class="content-node-sub">剧目分类 · 名家名段 · 播放记录 · 社区</div></div></div>
+      <div class="content-node content-node-depth-2"><div class="content-node-bullet"></div><div><div class="content-node-label">剧种分类</div></div></div>
+      <div class="content-node content-node-depth-2"><div class="content-node-bullet"></div><div><div class="content-node-label">名家名段</div></div></div>
+      <div class="content-node content-node-depth-1"><div class="content-node-bullet"></div><div><div class="content-node-label">棋道模块</div><div class="content-node-sub">棋谱库 · 对局记录 · 互动社区 · 每日棋诀</div></div></div>
+    </div>
+  </section>
+
+  <!-- 09 FINAL EXPERIENCE -->
+  <section class="final" id="final">
+    <div class="section-label reveal">最终呈现</div>
+    <h2 class="section-title reveal">最终呈现</h2>
+    <div class="final-image reveal"><img src="../pdf_pages/page_12.png" alt="最终设计方案"></div>
+    <p class="final-quote reveal">这是传统文化数字化的一次系统性探索。通过双风格并行的设计策略，既保留了传统文化的美学基因，又实现了现代数字产品的交互效率，让非遗文化在当代用户中重新找到存在感。</p>
+    <div class="final-values reveal">
+      <div class="final-value"><span class="final-value-num">01</span><div class="final-value-content"><h4>Cultural Translation</h4><p>将传统美学语言转译为现代数字设计语言，保持文化韵味的同时确保交互效率。</p></div></div>
+      <div class="final-value"><span class="final-value-num">02</span><div class="final-value-content"><h4>Dual Aesthetic System</h4><p>古琴模块采用水墨风格，戏曲模块采用现代简洁风格，形成差异化的视觉识别。</p></div></div>
+      <div class="final-value"><span class="final-value-num">03</span><div class="final-value-content"><h4>Community Integration</h4><p>不仅提供内容消费，更构建互动社区，让传统文化在社交传播中持续生长。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 10 REFLECTION -->
+  <section class="reflection" id="reflection">
+    <div class="section-label reveal">反思</div>
+    <h2 class="section-title reveal">反思</h2>
+    <p class="reflection-text reveal">这个项目的核心挑战在于如何在"传统"与"现代"之间找到平衡点。过于传统则难以吸引年轻用户，过于现代则失去文化韵味。最终的双风格策略——古琴保持古典韵味，戏曲采用现代语言——提供了一个可行的解决方案。但同时，我也意识到社区运营和内容持续更新是这类项目长期成功的关键，而这超出了设计的范畴。</p>
+  </section>
+
+  <!-- 11 OUTCOME -->
+  <section class="outcome" id="outcome">
+    <div class="section-label reveal">成果</div>
+    <h2 class="section-title reveal">成果</h2>
+    <div class="outcome-stats reveal">
+      <div class="outcome-stat"><div class="outcome-stat-num">3</div><div class="outcome-stat-label">文化模块<br>古琴 · 戏曲 · 围棋</div></div>
+      <div class="outcome-stat"><div class="outcome-stat-num">2</div><div class="outcome-stat-label">视觉风格<br>古典水墨 · 现代简洁</div></div>
+      <div class="outcome-stat"><div class="outcome-stat-num">100+</div><div class="outcome-stat-label">琴谱曲目<br>分类收录</div></div>
+      <div class="outcome-stat"><div class="outcome-stat-num">40+</div><div class="outcome-stat-label">戏曲剧目<br>经典收藏</div></div>
+    </div>
+  </section>
+
+  <!-- 12 CTA -->
+  <section class="cta" id="cta">
+    <div class="cta-label reveal">原型</div>
+    <h2 class="cta-title reveal">体验传统文化数字化</h2>
+    <a href="https://www.figma.com/proto/your-prototype-link" class="cta-btn reveal"><span>体验交互原型</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></a>
+    <p class="cta-note reveal">Interactive 原型 · Figma</p>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 OUYANG JIN</p>
+    <p>05 / 05</p>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => { observer.observe(el); });
+  </script>
+</body>
+</html>

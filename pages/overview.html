@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>03 / 04 / 05 — Quick Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #0A0A0A; --mid-gray: #6B6B6B; --light-gray: #9A9A9A; --border: #E5E5E5; --off-white: #F5F5F3;
+      --warm: #C8B89A; --blue-deep: #1A3A5C; --blue-teal: #2E8B8B; --green: #7BA32C; --brown: #A67C52;
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: var(--off-white); color: var(--black); line-height: 1.6; }
+    .ds-header { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .ds-header h1 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; }
+    .ds-header p { font-size: 13px; color: var(--mid-gray); margin-top: 4px; }
+    .ds-section { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .ds-section-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .ds-section-title::before { content: ''; width: 24px; height: 1px; background: var(--light-gray); }
+    .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
+    .color-item { padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; }
+    .color-swatch { width: 100%; aspect-ratio: 16/9; }
+    .color-name { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .color-hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mid-gray); }
+    .color-item.light { background: var(--off-white); border: 1px solid var(--border); }
+    .color-item.dark { background: var(--black); color: var(--white); }
+    .color-item.dark .color-hex { color: var(--light-gray); }
+    .project-ref { display: flex; flex-direction: column; gap: 16px; }
+    .project-card { padding: 20px; border: 1px solid var(--border); background: var(--white); }
+    .project-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .project-card-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; }
+    .project-card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+    .project-card-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+    .project-card-sections { font-size: 13px; color: var(--mid-gray); line-height: 1.8; }
+    .nav-links { display: flex; flex-direction: column; gap: 8px; }
+    .nav-link { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--black); }
+    .nav-link:last-child { border-bottom: none; }
+    .nav-link-left { display: flex; align-items: center; gap: 12px; }
+    .nav-link-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+    .nav-link-title { font-size: 15px; font-weight: 500; }
+    .nav-link-status { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 8px; }
+    .status-complete { color: var(--green); }
+    .status-partial { color: var(--warm-dark); }
+  </style>
+</head>
+<body>
+  <div class="ds-header">
+    <h1>Portfolio — Quick Reference</h1>
+    <p>Case Studies 03, 04, 05 · Design System Summary</p>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Project Color Systems</div>
+    <div class="color-grid">
+      <div class="color-item" style="background:#1A3A5C"><div class="color-swatch" style="background:#1A3A5C"></div><div class="color-name">03 Deep Blue</div><div class="color-hex">#1A3A5C</div></div>
+      <div class="color-item" style="background:#2E8B8B"><div class="color-swatch" style="background:#2E8B8B"></div><div class="color-name">03 Teal</div><div class="color-hex">#2E8B8B</div></div>
+      <div class="color-item" style="background:#7BA32C"><div class="color-swatch" style="background:#7BA32C"></div><div class="color-name">04 Green</div><div class="color-hex">#7BA32C</div></div>
+      <div class="color-item" style="background:#F2E8C4;border:1px solid #E5E5E5"><div class="color-swatch" style="background:#F2E8C4"></div><div class="color-name">04 Light</div><div class="color-hex">#F2E8C4</div></div>
+      <div class="color-item" style="background:#A67C52"><div class="color-swatch" style="background:#A67C52"></div><div class="color-name">05 Brown</div><div class="color-hex">#A67C52</div></div>
+      <div class="color-item" style="background:#F0E6D3;border:1px solid #E5E5E5"><div class="color-swatch" style="background:#F0E6D3"></div><div class="color-name">05 Light</div><div class="color-hex">#F0E6D3</div></div>
+      <div class="color-item light"><div class="color-swatch" style="background:#C8B89A"></div><div class="color-name">Warm</div><div class="color-hex">#C8B89A</div></div>
+      <div class="color-item light"><div class="color-swatch" style="background:#8B6F4E"></div><div class="color-name">Accent</div><div class="color-hex">#8B6F4E</div></div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Project Reference</div>
+    <div class="project-ref">
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-card-num" style="color:#2E8B8B">03</span>
+          <span class="project-card-title">Elderly Intelligent Care</span>
+          <span class="project-card-meta">Service Design · UX · Research</span>
+        </div>
+        <div class="project-card-sections">
+          Cover → Problem → Research → Persona → Insight → User Journey → Service Flow → IA → UI → Final → Outcome → CTA
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-card-num" style="color:#7BA32C">04</span>
+          <span class="project-card-title">Tianhe Bus Terminal</span>
+          <span class="project-card-meta">Service Design · Information Design · UX</span>
+        </div>
+        <div class="project-card-sections">
+          Cover → Context → Problem → User Flow → IA → Route System → Info Viz → UI/Signage → Application → Outcome → CTA
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-card-num" style="color:#A67C52">05</span>
+          <span class="project-card-title">Traditional Culture × Digital</span>
+          <span class="project-card-meta">Digital Culture · UX · UI</span>
+        </div>
+        <div class="project-card-sections">
+          Cover → Cultural Context → Challenge → Guqin Experience → Interface → Opera Experience → Interface → Content System → Final → Reflection → Outcome → CTA
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Page Navigation</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link"><div class="nav-link-left"><span class="nav-link-num">00</span><span class="nav-link-title">Homepage</span></div><span class="nav-link-status status-complete">✓ Complete</span></a>
+      <a href="case-01.html" class="nav-link"><div class="nav-link-left"><span class="nav-link-num">01</span><span class="nav-link-title">Chun Liu Wei Museum</span></div><span class="nav-link-status status-complete">✓ Complete</span></a>
+      <a href="case-02.html" class="nav-link"><div class="nav-link-left"><span class="nav-link-num">02</span><span class="nav-link-title">Smart Slippers</span></div><span class="nav-link-status status-complete">✓ Complete</span></a>
+      <a href="case-03.html" class="nav-link"><div class="nav-link-left"><span class="nav-link-num">03</span><span class="nav-link-title">Elderly Intelligent Care</span></div><span class="nav-link-status status-complete">✓ Complete</span></a>
+      <a href="case-04.html" class="nav-link"><div class="nav-link-left"><span class="nav-link-num">04</span><span class="nav-link-title">Tianhe Bus Terminal</span></div><span class="nav-link-status status-complete">✓ Complete</span></a>
+      <a href="case-05.html" class="nav-link"><div class="nav-link-left"><span class="nav-link-num">05</span><span class="nav-link-title">Traditional Culture × Digital</span></div><span class="nav-link-status status-complete">✓ Complete</span></a>
+    </div>
+  </div>
+</body>
+</html>

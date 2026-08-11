@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>淳六味 — Design System Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #0A0A0A; --dark-gray: #2A2A2A; --mid-gray: #6B6B6B; --light-gray: #9A9A9A;
+      --border: #E5E5E5; --off-white: #F5F5F3; --white: #FFFFFF;
+      --warm: #C8B89A; --warm-dark: #8B6F4E;
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: var(--off-white); color: var(--black); line-height: 1.6; }
+    .ds-header { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .ds-header h1 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; }
+    .ds-header p { font-size: 13px; color: var(--mid-gray); margin-top: 4px; }
+    .ds-section { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .ds-section-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .ds-section-title::before { content: ''; width: 24px; height: 1px; background: var(--warm); }
+    .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; }
+    .color-item { padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; }
+    .color-swatch { width: 100%; aspect-ratio: 16/9; }
+    .color-name { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .color-hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mid-gray); }
+    .color-item.light { background: var(--off-white); border: 1px solid var(--border); }
+    .color-item.dark { background: var(--black); color: var(--white); }
+    .color-item.dark .color-hex { color: var(--light-gray); }
+    .type-row { display: flex; flex-direction: column; gap: 20px; }
+    .type-item { padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .type-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 8px; }
+    .type-value { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+    .type-value.serif { font-family: 'Playfair Display', serif; }
+    .type-value.sc { font-family: 'Noto Serif SC', serif; }
+    .type-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 0.1em; color: var(--warm); }
+    .type-value.body { font-family: 'Inter', 'Noto Sans SC', sans-serif; font-size: 15px; font-weight: 400; color: var(--mid-gray); letter-spacing: 0; }
+    .comp-list { display: flex; flex-direction: column; gap: 1px; }
+    .comp-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; background: var(--off-white); }
+    .comp-item:first-child { border-top: 1px solid var(--border); }
+    .comp-item:last-child { border-bottom: 1px solid var(--border); }
+    .comp-name { font-size: 14px; font-weight: 500; }
+    .comp-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+    .nav-demo { background: var(--black); color: var(--white); padding: 24px; }
+    .nav-demo-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 16px; }
+    .nav-demo-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .nav-demo-item:last-child { border-bottom: none; }
+    .nav-demo-text { font-size: 14px; }
+    .nav-demo-active { color: var(--warm); }
+    .quiz-demo { background: var(--off-white); padding: 24px; border: 1px solid var(--border); }
+    .quiz-demo-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 16px; }
+    .quiz-question { font-family: 'Noto Serif SC', serif; font-size: 16px; font-weight: 600; margin-bottom: 16px; line-height: 1.5; }
+    .quiz-option { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .quiz-option:last-child { border-bottom: none; }
+    .quiz-letter { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--warm); min-width: 20px; }
+    .map-demo { background: var(--off-white); padding: 24px; border: 1px solid var(--border); }
+    .map-demo-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 16px; }
+    .map-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--dark-gray); display: flex; align-items: center; justify-content: center; color: var(--light-gray); font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="ds-header">
+    <h1>Case Study — Design System</h1>
+    <p>淳六味中药材博物馆 · Component Reference</p>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Color System</div>
+    <div class="color-grid">
+      <div class="color-item dark">
+        <div class="color-swatch" style="background:#0A0A0A"></div>
+        <div class="color-name">Black</div>
+        <div class="color-hex">#0A0A0A</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#C8B89A"></div>
+        <div class="color-name">Warm</div>
+        <div class="color-hex">#C8B89A</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#8B6F4E"></div>
+        <div class="color-name">Accent</div>
+        <div class="color-hex">#8B6F4E</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#F5F5F3;border:1px solid #E5E5E5"></div>
+        <div class="color-name">Off-White</div>
+        <div class="color-hex">#F5F5F3</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#6B6B6B"></div>
+        <div class="color-name">Mid-Gray</div>
+        <div class="color-hex">#6B6B6B</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#9A9A9A"></div>
+        <div class="color-name">Light-Gray</div>
+        <div class="color-hex">#9A9A9A</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Typography</div>
+    <div class="type-row">
+      <div class="type-item">
+        <div class="type-label">Cover Title — Playfair Display 700 · 36px</div>
+        <div class="type-value serif">淳六味</div>
+      </div>
+      <div class="type-item">
+        <div class="type-label">Section Title — Playfair Display 700 · 28px</div>
+        <div class="type-value serif">项目概述</div>
+      </div>
+      <div class="type-item">
+        <div class="type-label">Body — Noto Sans SC 400 · 15px</div>
+        <div class="type-value body">道地药材 · 千年传承 · 数字化展示</div>
+      </div>
+      <div class="type-item">
+        <div class="type-label">Mono — JetBrains Mono 400 · 11px</div>
+        <div class="type-value mono">CHUN LIU WEI · 01 / 06</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Navigation Component</div>
+    <div class="nav-demo">
+      <div class="nav-demo-label">Left Panel Navigation</div>
+      <div class="nav-demo-item"><span class="nav-demo-text nav-demo-active">首页</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--warm)">●</span></div>
+      <div class="nav-demo-item"><span class="nav-demo-text">三产布局</span></div>
+      <div class="nav-demo-item"><span class="nav-demo-text">六味药材</span></div>
+      <div class="nav-demo-item"><span class="nav-demo-text">互动答题</span></div>
+      <div class="nav-demo-item"><span class="nav-demo-text">体质食疗</span></div>
+      <div class="nav-demo-item"><span class="nav-demo-text">设置</span></div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Quiz Component</div>
+    <div class="quiz-demo">
+      <div class="quiz-demo-label">Interactive Quiz</div>
+      <div class="quiz-question">临岐龙头企业主打淳六味全产业链，不包含哪个环节？</div>
+      <div class="quiz-option"><span class="quiz-letter">A.</span><span>种苗繁育</span></div>
+      <div class="quiz-option"><span class="quiz-letter">B.</span><span>种植采收</span></div>
+      <div class="quiz-option"><span class="quiz-letter">C.</span><span>精深加工</span></div>
+      <div class="quiz-option"><span class="quiz-letter">D.</span><span>外来药材贴牌造假</span></div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Map Component</div>
+    <div class="map-demo">
+      <div class="map-demo-label">Interactive Map</div>
+      <div class="map-placeholder">产业分布可视化地图</div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Component Reference</div>
+    <div class="comp-list">
+      <div class="comp-item"><span class="comp-name">Section Label</span><span class="comp-meta">Mono 10px · Warm</span></div>
+      <div class="comp-item"><span class="comp-name">Section Title</span><span class="comp-meta">Playfair 28px · Bold</span></div>
+      <div class="comp-item"><span class="comp-name">Overview Lead</span><span class="comp-meta">Noto Serif 17px · Border-left</span></div>
+      <div class="comp-item"><span class="comp-name">Strategy Step</span><span class="comp-meta">Number + Title + Desc</span></div>
+      <div class="comp-item"><span class="comp-name">IA Node</span><span class="comp-meta">3 levels · Bullet depth</span></div>
+      <div class="comp-item"><span class="comp-name">Outcome Stat</span><span class="comp-meta">2×2 Grid · Large number</span></div>
+    </div>
+  </div>
+</body>
+</html>

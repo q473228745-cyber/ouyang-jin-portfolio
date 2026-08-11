@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Smart Slippers — Design System Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #0A0A0A; --dark-gray: #2A2A2A; --mid-gray: #6B6B6B; --light-gray: #9A9A9A;
+      --border: #E5E5E5; --off-white: #F5F5F3; --white: #FFFFFF;
+      --warm: #C8B89A; --warm-dark: #8B6F4E; --tech-accent: #B0A898;
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: var(--off-white); color: var(--black); line-height: 1.6; }
+    .ds-header { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .ds-header h1 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; }
+    .ds-header p { font-size: 13px; color: var(--mid-gray); margin-top: 4px; }
+    .ds-section { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .ds-section-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .ds-section-title::before { content: ''; width: 24px; height: 1px; background: var(--warm); }
+    .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; }
+    .color-item { padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; }
+    .color-swatch { width: 100%; aspect-ratio: 16/9; }
+    .color-name { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .color-hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mid-gray); }
+    .color-item.light { background: var(--off-white); border: 1px solid var(--border); }
+    .color-item.dark { background: var(--black); color: var(--white); }
+    .color-item.dark .color-hex { color: var(--light-gray); }
+    .flow-demo { background: var(--black); color: var(--white); padding: 24px; }
+    .flow-demo-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 16px; }
+    .flow-step { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .flow-step:last-child { border-bottom: none; }
+    .flow-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--warm); min-width: 24px; }
+    .flow-text { font-size: 14px; flex: 1; }
+    .flow-arrow { color: var(--warm); font-size: 12px; }
+    .tech-diagram { background: var(--black); color: var(--white); padding: 24px; }
+    .tech-diagram-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm); margin-bottom: 16px; }
+    .tech-node { display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--dark-gray); margin-bottom: 8px; }
+    .tech-node:last-child { margin-bottom: 0; }
+    .tech-node-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .tech-node-desc { font-size: 12px; color: var(--light-gray); }
+    .comp-list { display: flex; flex-direction: column; gap: 1px; }
+    .comp-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; background: var(--off-white); }
+    .comp-item:first-child { border-top: 1px solid var(--border); }
+    .comp-item:last-child { border-bottom: 1px solid var(--border); }
+    .comp-name { font-size: 14px; font-weight: 500; }
+    .comp-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light-gray); }
+    .typo-sample { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .typo-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 8px; }
+    .typo-value { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+    .typo-value.serif { font-family: 'Playfair Display', serif; }
+    .typo-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 0.1em; color: var(--warm); }
+  </style>
+</head>
+<body>
+  <div class="ds-header">
+    <h1>Case Study — Design System</h1>
+    <p>Smart Slippers · Component Reference</p>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Color System</div>
+    <div class="color-grid">
+      <div class="color-item dark">
+        <div class="color-swatch" style="background:#0A0A0A"></div>
+        <div class="color-name">Black</div>
+        <div class="color-hex">#0A0A0A</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#C8B89A"></div>
+        <div class="color-name">Warm</div>
+        <div class="color-hex">#C8B89A</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#B0A898"></div>
+        <div class="color-name">Tech Accent</div>
+        <div class="color-hex">#B0A898</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#F5F5F3;border:1px solid #E5E5E5"></div>
+        <div class="color-name">Off-White</div>
+        <div class="color-hex">#F5F5F3</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#6B6B6B"></div>
+        <div class="color-name">Mid-Gray</div>
+        <div class="color-hex">#6B6B6B</div>
+      </div>
+      <div class="color-item light">
+        <div class="color-swatch" style="background:#9A9A9A"></div>
+        <div class="color-name">Light-Gray</div>
+        <div class="color-hex">#9A9A9A</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Scenario Flow Component</div>
+    <div class="flow-demo">
+      <div class="flow-demo-label">Interaction Flow</div>
+      <div class="flow-step"><span class="flow-num">01</span><span class="flow-text">老人起床穿鞋</span><span class="flow-arrow">→</span></div>
+      <div class="flow-step"><span class="flow-num">02</span><span class="flow-text">RFID 感应识别</span><span class="flow-arrow">→</span></div>
+      <div class="flow-step"><span class="flow-num">03</span><span class="flow-text">灯光自动开启</span><span class="flow-arrow">→</span></div>
+      <div class="flow-step"><span class="flow-num">04</span><span class="flow-text">跌倒监测响应</span></div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Technology Diagram</div>
+    <div class="tech-diagram">
+      <div class="tech-diagram-label">System Architecture</div>
+      <div class="tech-node"><span class="tech-node-name">UHF RFID Tag</span><span class="tech-node-desc">嵌入鞋底 · 被动式</span></div>
+      <div style="text-align:center;padding:8px;color:var(--warm);">↓</div>
+      <div class="tech-node"><span class="tech-node-name">Reader / Gateway</span><span class="tech-node-desc">卧室入口 · 10m 半径</span></div>
+      <div style="text-align:center;padding:8px;color:var(--warm);">↓</div>
+      <div class="tech-node"><span class="tech-node-name">Control Unit</span><span class="tech-node-desc">家庭网关 · 联动控制</span></div>
+      <div style="text-align:center;padding:8px;color:var(--warm);">↓</div>
+      <div class="tech-node"><span class="tech-node-name">Lighting System</span><span class="tech-node-desc">感应触发 · 渐亮渐暗</span></div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Typography</div>
+    <div class="typo-sample">
+      <div class="typo-label">Cover Title — Playfair Display 700 · 72px</div>
+      <div class="typo-value serif">SMART SLIPPERS</div>
+    </div>
+    <div class="typo-sample">
+      <div class="typo-label">Section Label — JetBrains Mono 10px</div>
+      <div class="typo-value mono">TECHNOLOGY · 06 / 10</div>
+    </div>
+    <div class="typo-sample">
+      <div class="typo-label">Body — Inter 400 · 15px</div>
+      <div class="typo-value" style="font-family:'Inter',sans-serif;font-size:15px;color:var(--mid-gray);font-weight:400;letter-spacing:0;">Elderly Safety · IoT Integration · UHF RFID</div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Component Reference</div>
+    <div class="comp-list">
+      <div class="comp-item"><span class="comp-name">Problem Stat</span><span class="comp-meta">Black bg · Large number</span></div>
+      <div class="comp-item"><span class="comp-name">Scenario Step</span><span class="comp-meta">Icon + Text + Arrow</span></div>
+      <div class="comp-item"><span class="comp-name">Tech Node</span><span class="comp-meta">Black bg · Border</span></div>
+      <div class="comp-item"><span class="comp-name">Structure Layer</span><span class="comp-meta">Name + Desc split</span></div>
+      <div class="comp-item"><span class="comp-name">Final Value</span><span class="comp-meta">Number + Title + Desc</span></div>
+    </div>
+  </div>
+</body>
+</html>

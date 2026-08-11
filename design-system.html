@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>欧阳槿 — Design System Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --black: #0A0A0A; --off-black: #1A1A1A; --dark-gray: #2A2A2A;
+      --mid-gray: #6B6B6B; --light-gray: #9A9A9A; --border: #E5E5E5;
+      --off-white: #F5F5F3; --white: #FFFFFF; --warm: #C8B89A;
+      --cool: #8A9BA8;
+    }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: var(--off-white); color: var(--black); line-height: 1.6; }
+
+    .ds-header { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .ds-header h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+    .ds-header p { font-size: 13px; color: var(--mid-gray); margin-top: 4px; }
+
+    .ds-section { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .ds-section-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .ds-section-title::before { content: ''; width: 24px; height: 1px; background: var(--warm); }
+
+    .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
+    .color-item { background: var(--black); padding: 16px 12px; }
+    .color-item .swatch { width: 100%; aspect-ratio: 1; border-radius: 0; margin-bottom: 8px; }
+    .color-item .name { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--black); }
+    .color-item .hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mid-gray); margin-top: 2px; }
+    .color-item.light { background: var(--off-white); border: 1px solid var(--border); }
+    .color-item.light .name { color: var(--black); }
+
+    .type-sample { margin-bottom: 24px; }
+    .type-sample-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-gray); margin-bottom: 8px; }
+    .type-sample-value { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
+    .type-sample.sub { font-family: 'Inter', sans-serif; font-size: 15px; color: var(--mid-gray); letter-spacing: 0.08em; text-transform: uppercase; }
+    .type-sample.mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--warm); letter-spacing: 0.1em; }
+
+    .spacing-grid { display: flex; flex-direction: column; gap: 8px; }
+    .spacing-row { display: flex; align-items: center; gap: 16px; }
+    .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--light-gray); min-width: 80px; letter-spacing: 0.05em; }
+    .spacing-bar { height: 2px; background: var(--black); }
+    .spacing-val { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mid-gray); min-width: 40px; text-align: right; }
+
+    .grid-demo { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; padding: 16px 0; }
+    .grid-col { background: var(--border); aspect-ratio: 1; }
+    .grid-col:first-child, .grid-col:last-child { background: var(--warm); opacity: 0.3; }
+
+    .radius-demo { display: flex; gap: 16px; flex-wrap: wrap; }
+    .radius-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .radius-box { background: var(--black); }
+    .radius-item span { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mid-gray); }
+  </style>
+</head>
+<body>
+  <div class="ds-header">
+    <h1>Design System — OUYANG JIN</h1>
+    <p>Reference only · Not part of the live site</p>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Colors</div>
+    <div class="color-grid">
+      <div class="color-item"><div class="swatch" style="background:#0A0A0A"></div><div class="name">Black</div><div class="hex">#0A0A0A</div></div>
+      <div class="color-item"><div class="swatch" style="background:#1A1A1A"></div><div class="name">Off Black</div><div class="hex">#1A1A1A</div></div>
+      <div class="color-item"><div class="swatch" style="background:#2A2A2A"></div><div class="name">Dark Gray</div><div class="hex">#2A2A2A</div></div>
+      <div class="color-item"><div class="swatch" style="background:#6B6B6B"></div><div class="name">Mid Gray</div><div class="hex">#6B6B6B</div></div>
+      <div class="color-item"><div class="swatch" style="background:#9A9A9A"></div><div class="name">Light Gray</div><div class="hex">#9A9A9A</div></div>
+      <div class="color-item"><div class="swatch" style="background:#E5E5E5"></div><div class="name">Border</div><div class="hex">#E5E5E5</div></div>
+      <div class="color-item light"><div class="swatch" style="background:#F5F5F3"></div><div class="name">Off White</div><div class="hex">#F5F5F3</div></div>
+      <div class="color-item light"><div class="swatch" style="background:#FFFFFF;border:1px solid #E5E5E5"></div><div class="name">White</div><div class="hex">#FFFFFF</div></div>
+      <div class="color-item light"><div class="swatch" style="background:#C8B89A"></div><div class="name">Warm Accent</div><div class="hex">#C8B89A</div></div>
+      <div class="color-item light"><div class="swatch" style="background:#8A9BA8"></div><div class="name">Cool Accent</div><div class="hex">#8A9BA8</div></div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Typography</div>
+    <div class="type-sample">
+      <div class="type-sample-label">Display XL — Playfair Display 700 · 48px · lh 0.95</div>
+      <div class="type-sample-value">DESIGN BEYOND THE SCREEN.</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-sample-label">Subtitle — Inter 400 · 15px · tracking 0.08em</div>
+      <div class="type-sample sub">互动 / 数字体验</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-sample-label">Section Label — JetBrains Mono · 10px · tracking 0.2em</div>
+      <div class="type-sample mono">Selected Works</div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Spacing System (8px base)</div>
+    <div class="spacing-grid">
+      <div class="spacing-row"><span class="spacing-label">xs — 4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">sm — 8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">md — 16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">lg — 24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">xl — 32px</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">2xl — 48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">48px</span></div>
+      <div class="spacing-row"><span class="spacing-label">3xl — 64px</span><div class="spacing-bar" style="width:64px"></div><span class="spacing-val">64px</span></div>
+      <div class="spacing-row"><span class="spacing-label">4xl — 96px</span><div class="spacing-bar" style="width:96px"></div><span class="spacing-val">96px</span></div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Border Radius</div>
+    <div class="radius-demo">
+      <div class="radius-item"><div class="radius-box" style="width:48px;height:48px;border-radius:0"></div><span>none 0px</span></div>
+      <div class="radius-item"><div class="radius-box" style="width:48px;height:48px;border-radius:4px"></div><span>sm 4px</span></div>
+      <div class="radius-item"><div class="radius-box" style="width:48px;height:48px;border-radius:8px"></div><span>md 8px</span></div>
+      <div class="radius-item"><div class="radius-box" style="width:48px;height:48px;border-radius:16px"></div><span>lg 16px</span></div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-section-title">Grid — 390px Mobile (24px padding)</div>
+    <div class="grid-demo" style="grid-template-columns: 24px 1fr 24px;">
+      <div class="grid-col" style="grid-column:1"></div>
+      <div class="grid-col" style="grid-column:2"></div>
+      <div class="grid-col" style="grid-column:3"></div>
+    </div>
+  </div>
+</body>
+</html>
