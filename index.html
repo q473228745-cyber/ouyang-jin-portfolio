@@ -61,8 +61,8 @@
     .work-item.visible { opacity: 1; transform: translateY(0); }
     .work-item + .work-item { padding-top: var(--space-2xl); border-top: 1px solid var(--border); }
 
-    .work-01 .work-image-wrap { position: relative; width: 100%; aspect-ratio: 9/20; overflow: hidden; background: var(--dark-gray); margin-bottom: var(--space-lg); }
-    .work-01 .work-image-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; filter: grayscale(20%); transition: filter 0.5s var(--easing), transform 0.8s var(--easing); }
+    .work-01 .work-image-wrap { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; background: var(--dark-gray); margin-bottom: var(--space-lg); }
+    .work-01 .work-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(20%); transition: filter 0.5s var(--easing), transform 0.8s var(--easing); }
     .work-01:hover .work-image-wrap img, .work-01:active .work-image-wrap img { filter: grayscale(0%); transform: scale(1.02); }
     .work-number { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--warm); letter-spacing: 0.1em; margin-bottom: var(--space-sm); }
     .work-name { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: var(--space-sm); }
